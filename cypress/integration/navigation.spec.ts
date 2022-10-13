@@ -24,6 +24,16 @@ describe("Sidebar Navigation", () => {
 
       cy.get("nav").contains("Settings").click();
       cy.url().should("eq", "http://localhost:3000/dashboard/settings");
+
+      cy.window().then((win) => {
+        cy.stub(win, "open").as("open");
+      });
+
+      cy.get("nav").contains("Support").click();
+      cy.get("@open").should(
+        "be.always.calledWith",
+        "mailto:support@prolog-app.com?subject=Support Request:"
+      );
     });
 
     it("is collapsible", () => {
