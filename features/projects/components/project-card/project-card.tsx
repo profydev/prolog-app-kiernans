@@ -1,14 +1,17 @@
 import Link from "next/link";
 import styled from "styled-components";
-import capitalize from "lodash/capitalize";
 import { Badge, BadgeColor } from "@features/ui";
 import {
   Project,
   ProjectLanguage,
   ProjectStatus,
+  ProjectStatusNames,
+  Status,
+  StatusColors,
 } from "../../types/project.types";
 import { color, displayFont, space, textFont } from "@styles/theme";
 import { Routes } from "@config/routes";
+import { capitalize } from "lodash";
 
 type ProjectCardProps = {
   project: Project;
@@ -20,7 +23,13 @@ const languageNames = {
   [ProjectLanguage.python]: "Python",
 };
 
-const statusColors = {
+const statusNames: Status = {
+  [ProjectStatusNames.warning]: "warning",
+  [ProjectStatusNames.error]: "critical",
+  [ProjectStatusNames.info]: "stable",
+};
+
+const statusColors: StatusColors = {
   [ProjectStatus.stable]: BadgeColor.success,
   [ProjectStatus.warning]: BadgeColor.warning,
   [ProjectStatus.critical]: BadgeColor.error,
@@ -106,6 +115,8 @@ const ViewIssuesAnchor = styled.a`
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const { name, language, numIssues, numEvents24h, status } = project;
+  const statusName = statusNames[status as keyof Status];
+  const statusColor = statusColors[statusName as keyof StatusColors];
   return (
     <Container>
       <TopContainer>
@@ -126,7 +137,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <IssuesNumber>{numEvents24h}</IssuesNumber>
           </Issues>
           <Status>
-            <Badge color={statusColors[status]}>{capitalize(status)}</Badge>
+            <Badge color={statusColor}>{capitalize(statusName)}</Badge>
           </Status>
         </InfoContainer>
       </TopContainer>
