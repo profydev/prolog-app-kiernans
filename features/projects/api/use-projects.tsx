@@ -8,5 +8,8 @@ async function getProjects() {
 }
 
 export function useProjects() {
-  return useQuery<Project[], Error>(["projects"], getProjects);
+  return useQuery<Project[], Error>(["projects"], getProjects, {
+    refetchOnWindowFocus: false,
+    refetchInterval: 6000,
+  });
 }

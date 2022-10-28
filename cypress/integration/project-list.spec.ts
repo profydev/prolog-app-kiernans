@@ -62,3 +62,30 @@ describe("Project List", () => {
     });
   });
 });
+
+describe("Project List not loaded", () => {
+  beforeEach(() => {
+    cy.intercept(
+      "https://prolog-api.profy.dev/project",
+      { times: 10 },
+      {
+        forceNetworkError: true,
+      }
+    ).as("projectsFail");
+    cy.visit("http://localhost:3000/dashboard");
+  });
+
+  context("desktop resolution", () => {
+    beforeEach(() => {
+      cy.viewport(1025, 900);
+    });
+
+    it("renders error alert", () => {
+      //Give error alert time to load
+      cy.wait(5000);
+      cy.get("main").find("button").contains("Try Again").click();
+      cy.wait(5000);
+      cy.get("main").find("div").children().should("have.length.at.least", 3);
+    });
+  });
+});
