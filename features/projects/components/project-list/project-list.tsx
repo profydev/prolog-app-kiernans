@@ -29,6 +29,10 @@ const Error = styled.div`
   background: #fffbfa;
   border: 1px solid #fda29b;
   border-radius: 8px;
+
+  @media (min-width: ${breakpoint("desktop")}) {
+    width: 351px;
+  }
 `;
 
 const ErrorIcon = styled.img``;
@@ -53,6 +57,10 @@ const ErrorButton = styled.button`
   display: flex;
   align-items: center;
   border-style: none;
+
+  @media (min-width: ${breakpoint("desktop")}) {
+    height: 36px;
+  }
 `;
 
 const ErrorArrow = styled.img`
