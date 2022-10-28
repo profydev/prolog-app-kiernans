@@ -72,29 +72,29 @@ const ErrorArrow = styled.img`
 export function ProjectList() {
   const { data, isLoading, isError, error } = useProjects();
 
-  /* if (isLoading) {
+  if (isLoading) {
     return <div>Loading</div>;
-  } */
+  }
 
-  /* if (isError) {
-    console.error(error); */
+  if (isError) {
+    console.error(error);
+    return (
+      <Error>
+        <ErrorIcon src={`/icons/alert-circle.svg`} />
+        <ErrorContent>
+          <ErrorText>
+            There was a problem while loading the project data
+          </ErrorText>
+          <ErrorButton>
+            <ErrorText>Try Again</ErrorText>
+            <ErrorArrow src={"/icons/arrow-left.svg"} />
+          </ErrorButton>
+        </ErrorContent>
+      </Error>
+    );
+  }
+
   return (
-    <Error>
-      <ErrorIcon src={`/icons/alert-circle.svg`} />
-      <ErrorContent>
-        <ErrorText>
-          There was a problem while loading the project data
-        </ErrorText>
-        <ErrorButton>
-          <ErrorText>Try Again</ErrorText>
-          <ErrorArrow src={"/icons/arrow-left.svg"} />
-        </ErrorButton>
-      </ErrorContent>
-    </Error>
-  );
-  /* } */
-
-  /* return (
     <List>
       {data?.map((project) => (
         <li key={project.id}>
@@ -102,5 +102,5 @@ export function ProjectList() {
         </li>
       ))}
     </List>
-  ); */
+  );
 }
