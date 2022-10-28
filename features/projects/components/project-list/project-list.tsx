@@ -70,7 +70,7 @@ const ErrorArrow = styled.img`
 `;
 
 export function ProjectList() {
-  const { data, isLoading, isError, error } = useProjects();
+  const { data, isLoading, isError, error, refetch } = useProjects();
 
   if (isLoading) {
     return <div>Loading</div>;
@@ -85,7 +85,7 @@ export function ProjectList() {
           <ErrorText>
             There was a problem while loading the project data
           </ErrorText>
-          <ErrorButton onClick={() => console.log("clicked")}>
+          <ErrorButton onClick={() => refetch()}>
             <ErrorText>Try Again</ErrorText>
             <ErrorArrow src={"/icons/arrow-left.svg"} />
           </ErrorButton>
