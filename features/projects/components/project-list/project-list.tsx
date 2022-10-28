@@ -30,7 +30,7 @@ const Error = styled.div`
   border: 1px solid #fda29b;
   border-radius: 8px;
 
-  @media (min-width: ${breakpoint("desktop")}) {
+  @media (max-width: ${breakpoint("desktop")}) {
     width: 351px;
   }
 `;
@@ -58,7 +58,7 @@ const ErrorButton = styled.button`
   align-items: center;
   border-style: none;
 
-  @media (min-width: ${breakpoint("desktop")}) {
+  @media (max-width: ${breakpoint("desktop")}) {
     height: 36px;
   }
 `;
@@ -85,7 +85,7 @@ export function ProjectList() {
           <ErrorText>
             There was a problem while loading the project data
           </ErrorText>
-          <ErrorButton>
+          <ErrorButton onClick={() => console.log("clicked")}>
             <ErrorText>Try Again</ErrorText>
             <ErrorArrow src={"/icons/arrow-left.svg"} />
           </ErrorButton>
