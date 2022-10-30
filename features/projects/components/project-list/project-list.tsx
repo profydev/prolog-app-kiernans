@@ -18,8 +18,59 @@ const List = styled.ul`
   }
 `;
 
+const Error = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 16px;
+  gap: 12px;
+  height: 28px;
+  width: 1310px;
+  background: #fffbfa;
+  border: 1px solid #fda29b;
+  border-radius: 8px;
+
+  @media (max-width: ${breakpoint("desktop")}) {
+    width: 351px;
+  }
+`;
+
+const ErrorIcon = styled.img``;
+
+const ErrorContent = styled.div`
+  display: flex;
+  align-items: center;
+  width: 97%;
+  justify-content: space-between;
+`;
+
+const ErrorText = styled.p`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: #b42318;
+`;
+
+const ErrorButton = styled.button`
+  background: #fffbfa;
+  display: flex;
+  align-items: center;
+  border-style: none;
+
+  @media (max-width: ${breakpoint("desktop")}) {
+    height: 36px;
+  }
+`;
+
+const ErrorArrow = styled.img`
+  transform: rotate(180deg);
+  filter: invert(14%) sepia(94%) saturate(3176%) hue-rotate(354deg)
+    brightness(94%) contrast(90%);
+`;
+
 export function ProjectList() {
-  const { data, isLoading, isError, error } = useProjects();
+  const { data, isLoading, isError, error, refetch } = useProjects();
 
   if (isLoading) {
     return <div>Loading</div>;
@@ -27,7 +78,20 @@ export function ProjectList() {
 
   if (isError) {
     console.error(error);
-    return <div>Error: {error.message}</div>;
+    return (
+      <Error>
+        <ErrorIcon src={`/icons/alert-circle.svg`} />
+        <ErrorContent>
+          <ErrorText>
+            There was a problem while loading the project data
+          </ErrorText>
+          <ErrorButton onClick={() => refetch()}>
+            <ErrorText>Try Again</ErrorText>
+            <ErrorArrow src={"/icons/arrow-left.svg"} />
+          </ErrorButton>
+        </ErrorContent>
+      </Error>
+    );
   }
 
   return (
