@@ -63,6 +63,34 @@ describe("Project List", () => {
   });
 });
 
+describe("Project List loading", () => {
+  beforeEach(() => {
+    cy.intercept(
+      "https://prolog-api.profy.dev/project",
+      { times: 1 },
+      (req) => {
+        req.on("response", (res) => {
+          res.setDelay(10000);
+        });
+      }
+    ).as("projectsLoading");
+    cy.visit("http://localhost:3000/dashboard");
+  });
+
+  context("desktop resolution", () => {
+    beforeEach(() => {
+      cy.viewport(1025, 900);
+    });
+
+    it("renders loading icon with animation", () => {
+      cy.get("main")
+        .find("img")
+        .should("be.visible")
+        .should("have.css", "animation");
+    });
+  });
+});
+
 describe("Project List not loaded", () => {
   let requestCounter = 0;
   beforeEach(() => {
