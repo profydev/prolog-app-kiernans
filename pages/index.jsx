@@ -28,13 +28,41 @@ const ContactButton = styled.button`
   }
 `;
 
+const HeaderLinks = styled.div`
+  display: flex;
+  width: 420px;
+  justify-content: space-around;
+`;
+const HeaderLink = styled.a`
+  text-decoration: none;
+`;
+
+const DashboardButton = styled.button`
+  border-radius: 8px;
+  color: white;
+  background: #7f56d9;
+  border: 1px solid #7f56d9;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  width: 165px;
+  height: 44px;
+`;
+
 const IssuesPage = () => {
   return (
     <div>
       <Header>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icons/logo-large.svg" alt="Prolog logo" />
-        <a href={Routes.projects}>Dashboard</a>
+        <HeaderLinks>
+          <HeaderLink href="#">Home</HeaderLink>
+          <HeaderLink href="#">Products</HeaderLink>
+          <HeaderLink href="#">Documentation</HeaderLink>
+          <HeaderLink href="#">Pricing</HeaderLink>
+        </HeaderLinks>
+        <a href={Routes.projects}>
+          <DashboardButton>Open Dashboard</DashboardButton>
+        </a>
       </Header>
       <ContactButton
         onClick={() =>
