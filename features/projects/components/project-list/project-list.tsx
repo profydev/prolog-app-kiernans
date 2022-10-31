@@ -69,11 +69,40 @@ const ErrorArrow = styled.img`
     brightness(94%) contrast(90%);
 `;
 
+const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 255px;
+
+  @media (max-width: ${breakpoint("desktop")}) {
+    height: 300px;
+  }
+`;
+
+const LoadingIcon = styled.img`
+  animation: rotation 2s infinite linear;
+
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
+`;
+
 export function ProjectList() {
   const { data, isLoading, isError, error, refetch } = useProjects();
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return (
+      <Loading>
+        <LoadingIcon src="/icons/loading.svg" alt="Loading" />
+      </Loading>
+    );
   }
 
   if (isError) {
