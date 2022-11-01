@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { Routes } from "@config/routes";
 import Link from "next/link";
@@ -158,6 +159,8 @@ const ModalEmailButton = styled(ModalButton)`
 `;
 
 const IssuesPage = () => {
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <div>
       <Header>
@@ -181,35 +184,41 @@ const IssuesPage = () => {
           <DashboardButton>Open Dashboard</DashboardButton>
         </a>
       </Header>
-      <ContactButton
-        onClick={() =>
-          alert(
-            "Implement this in Challenge 2 - Modal:\n\nhttps://profy.dev/rjs-challenge-modal"
-          )
-        }
-      >
+      <ContactButton onClick={() => setOpenModal(true)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icons/message.svg" alt="Contact" />
       </ContactButton>
-      <ModalBackground>
-        <Modal>
-          <ModalContent>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <ModalImage src="/icons/email.svg" alt="Email Icon" />
-            <ModalTextContainer>
-              <ModalText>Contact Us Via Email</ModalText>
-              <ModalSubtext>
-                Any questions? Send us an email at prolog@profy.dev. We usually
-                answer within 24 hours.
-              </ModalSubtext>
-            </ModalTextContainer>
-          </ModalContent>
-          <ModalActions>
-            <ModalCancelButton>Cancel</ModalCancelButton>
-            <ModalEmailButton>Open Email App</ModalEmailButton>
-          </ModalActions>
-        </Modal>
-      </ModalBackground>
+      {openModal && (
+        <ModalBackground>
+          <Modal>
+            <ModalContent>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <ModalImage src="/icons/email.svg" alt="Email Icon" />
+              <ModalTextContainer>
+                <ModalText>Contact Us Via Email</ModalText>
+                <ModalSubtext>
+                  Any questions? Send us an email at prolog@profy.dev. We
+                  usually answer within 24 hours.
+                </ModalSubtext>
+              </ModalTextContainer>
+            </ModalContent>
+            <ModalActions>
+              <ModalCancelButton onClick={() => setOpenModal(false)}>
+                Cancel
+              </ModalCancelButton>
+              <ModalEmailButton
+                onClick={() =>
+                  window.open(
+                    "mailto:support@prolog-app.com?subject=Support Request:"
+                  )
+                }
+              >
+                Open Email App
+              </ModalEmailButton>
+            </ModalActions>
+          </Modal>
+        </ModalBackground>
+      )}
     </div>
   );
 };
