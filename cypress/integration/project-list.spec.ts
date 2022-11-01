@@ -60,6 +60,14 @@ describe("Project List", () => {
             .should("have.attr", "href", "/dashboard/issues");
         });
     });
+
+    it("loads the footer", () => {
+      cy.get("main>div:nth-child(2)").should("exist");
+      cy.get("main>div:nth-child(2)>div>div")
+        .should("exist")
+        .children()
+        .should("have.length", 3);
+    });
   });
 });
 

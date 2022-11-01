@@ -81,5 +81,13 @@ describe("Issue List", () => {
       cy.reload();
       cy.contains("Page 2 of 3");
     });
+
+    it("loads the footer", () => {
+      cy.get("main>div:nth-child(2)").should("exist");
+      cy.get("main>div:nth-child(2)>div>div")
+        .should("exist")
+        .children()
+        .should("have.length", 3);
+    });
   });
 });
