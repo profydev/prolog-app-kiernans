@@ -67,6 +67,12 @@ describe("Project List", () => {
         .should("exist")
         .children()
         .should("have.length", 3);
+
+      context("mobile view", () => {
+        cy.viewport(300, 500);
+      });
+      //Check css changes with mobile viewport
+      cy.get("main>div:nth-child(2)").invoke("height").should("equal", 177);
     });
   });
 });
