@@ -1,2 +1,1 @@
-export { DesktopFooter } from "./desktopFooter";
-export { MobileFooter } from "./mobileFooter";
+export { Footer } from "./footer";
