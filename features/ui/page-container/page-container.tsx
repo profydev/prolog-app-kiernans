@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { SidebarNavigation } from "@features/ui";
 import { color, displayFont, textFont, space, breakpoint } from "@styles/theme";
 import Link from "next/link";
+import { version } from "../../../package.json";
 
 type PageContainerProps = {
   children: React.ReactNode;
@@ -156,7 +157,7 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
         <Footer>
           <FooterContainer>
             <FooterContent>
-              <FooterText>Version: 14.5.1</FooterText>
+              <FooterText>Version: {version}</FooterText>
               <FooterLinks>
                 <FooterLink href="#" passHref>
                   <FooterAnchor>Docs</FooterAnchor>
