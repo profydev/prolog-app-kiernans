@@ -3,9 +3,8 @@ import Head from "next/head";
 import styled from "styled-components";
 import { SidebarNavigation } from "@features/ui";
 import { color, displayFont, textFont, space, breakpoint } from "@styles/theme";
-import { DesktopFooter, MobileFooter } from "../footer";
+import { Footer } from "../footer";
 import { version } from "../../../package.json";
-import { BrowserView, MobileView } from "react-device-detect";
 
 type PageContainerProps = {
   children: React.ReactNode;
@@ -55,32 +54,6 @@ const Info = styled.div`
   ${textFont("md", "regular")}
 `;
 
-const StyledDesktopFooter = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0px;
-
-  width: 100%;
-  height: 60px;
-
-  background: ${color("gray", 50)};
-`;
-
-const StyledMobileFooter = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: ${space(3)};
-
-  width: 94%;
-  height: 177px;
-
-  background: ${color("gray", 50)};
-`;
-
 export function PageContainer({ children, title, info }: PageContainerProps) {
   return (
     <Container>
@@ -97,16 +70,7 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
           <Info>{info}</Info>
           {children}
         </ContentContainer>
-        <MobileView>
-          <StyledMobileFooter>
-            <MobileFooter version={version} />
-          </StyledMobileFooter>
-        </MobileView>
-        <BrowserView>
-          <StyledDesktopFooter>
-            <DesktopFooter version={version} />
-          </StyledDesktopFooter>
-        </BrowserView>
+        <Footer version={version} />
       </Main>
     </Container>
   );
