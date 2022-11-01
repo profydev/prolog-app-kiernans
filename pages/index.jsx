@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Routes } from "@config/routes";
 import Link from "next/link";
+import { color, textFont } from "@styles/theme";
 
 const Header = styled.header`
   width: 100%;
@@ -34,8 +35,11 @@ const LinksContainer = styled.div`
   width: 420px;
   justify-content: space-around;
 `;
+
 const HeaderAnchor = styled.a`
   text-decoration: none;
+  color: ${color("gray", 500)};
+  ${textFont("md", "medium")};
 `;
 
 const DashboardButton = styled.button`
