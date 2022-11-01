@@ -53,6 +53,21 @@ const DashboardButton = styled.button`
   height: 44px;
 `;
 
+const ModalBackground = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(52, 64, 84, 0.6);
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  backdrop-filter: blur(8px);
+`;
+
 const Modal = styled.div`
   display: flex;
   flex-direction: column;
@@ -176,24 +191,25 @@ const IssuesPage = () => {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icons/message.svg" alt="Contact" />
       </ContactButton>
-
-      <Modal>
-        <ModalContent>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <ModalImage src="/icons/email.svg" alt="Email Icon" />
-          <ModalTextContainer>
-            <ModalText>Contact Us Via Email</ModalText>
-            <ModalSubtext>
-              Any questions? Send us an email at prolog@profy.dev. We usually
-              answer within 24 hours.
-            </ModalSubtext>
-          </ModalTextContainer>
-        </ModalContent>
-        <ModalActions>
-          <ModalCancelButton>Cancel</ModalCancelButton>
-          <ModalEmailButton>Open Email App</ModalEmailButton>
-        </ModalActions>
-      </Modal>
+      <ModalBackground>
+        <Modal>
+          <ModalContent>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <ModalImage src="/icons/email.svg" alt="Email Icon" />
+            <ModalTextContainer>
+              <ModalText>Contact Us Via Email</ModalText>
+              <ModalSubtext>
+                Any questions? Send us an email at prolog@profy.dev. We usually
+                answer within 24 hours.
+              </ModalSubtext>
+            </ModalTextContainer>
+          </ModalContent>
+          <ModalActions>
+            <ModalCancelButton>Cancel</ModalCancelButton>
+            <ModalEmailButton>Open Email App</ModalEmailButton>
+          </ModalActions>
+        </Modal>
+      </ModalBackground>
     </div>
   );
 };
