@@ -62,10 +62,9 @@ const ModalBackground = styled.div`
   width: 100vw;
   height: 100vh;
   z-index: 0;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   position: absolute;
+  top: 0px;
+  left: 0px;
   backdrop-filter: blur(8px);
 `;
 
