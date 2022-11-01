@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Routes } from "@config/routes";
+import Link from "next/link";
 
 const Header = styled.header`
   width: 100%;
@@ -28,12 +29,12 @@ const ContactButton = styled.button`
   }
 `;
 
-const HeaderLinks = styled.div`
+const LinksContainer = styled.div`
   display: flex;
   width: 420px;
   justify-content: space-around;
 `;
-const HeaderLink = styled.a`
+const HeaderAnchor = styled.a`
   text-decoration: none;
 `;
 
@@ -54,12 +55,20 @@ const IssuesPage = () => {
       <Header>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icons/logo-large.svg" alt="Prolog logo" />
-        <HeaderLinks>
-          <HeaderLink href="#">Home</HeaderLink>
-          <HeaderLink href="#">Products</HeaderLink>
-          <HeaderLink href="#">Documentation</HeaderLink>
-          <HeaderLink href="#">Pricing</HeaderLink>
-        </HeaderLinks>
+        <LinksContainer>
+          <Link href={Routes.home} passHref>
+            <HeaderAnchor>Home</HeaderAnchor>
+          </Link>
+          <Link href={Routes.products} passHref>
+            <HeaderAnchor>Products</HeaderAnchor>
+          </Link>
+          <Link href={Routes.documentation} passHref>
+            <HeaderAnchor>Documentation</HeaderAnchor>
+          </Link>
+          <Link href={Routes.pricing} passHref>
+            <HeaderAnchor>Pricing</HeaderAnchor>
+          </Link>
+        </LinksContainer>
         <a href={Routes.projects}>
           <DashboardButton>Open Dashboard</DashboardButton>
         </a>
