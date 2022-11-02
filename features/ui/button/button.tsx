@@ -22,12 +22,15 @@ export enum ButtonIcon {
   leading = "leading",
   trailing = "trailing",
   only = "only",
+  none = "none",
 }
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode;
   size?: ButtonSize;
   color?: ButtonColor;
+  icon?: ButtonIcon;
+  image?: string;
 };
 
 export const DefaultButton = styled.button`
@@ -199,15 +202,35 @@ const Container = styled.button<{ size: ButtonSize; color: ButtonColor }>`
   }}
 `;
 
+const Image = styled.img`
+  width: 1.25rem;
+  height: 1.25rem;
+`;
+
 export function Button({
   children,
   size = ButtonSize.md,
   color = ButtonColor.primary,
+  icon = ButtonIcon.none,
+  image = "/icons/alert.svg",
   ...buttonProps
 }: ButtonProps) {
   return (
     <Container size={size} color={color} {...buttonProps}>
-      {children}
+      {icon === ButtonIcon.leading && (
+        <>
+          <Image src={image} alt="Button Icon" />
+          {children}
+        </>
+      )}
+      {icon === ButtonIcon.only && <Image src={image} alt="Button Icon" />}
+      {icon === ButtonIcon.none && children}
+      {icon === ButtonIcon.trailing && (
+        <>
+          {children}
+          <Image src={image} alt="Button Icon" />
+        </>
+      )}
     </Container>
   );
 }
