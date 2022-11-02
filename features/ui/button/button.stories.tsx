@@ -1,6 +1,6 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Button, ButtonSize, ButtonColor } from "./button";
+import { Button, ButtonSize, ButtonColor, ButtonIcon } from "./button";
 
 export default {
   title: "UI/Button",
@@ -24,9 +24,6 @@ Default.args = {
   size: ButtonSize.sm,
   color: ButtonColor.primary,
 };
-Default.parameters = {
-  viewMode: "docs",
-};
 
 export const Disabled: ComponentStory<typeof Button> = ({
   children,
@@ -42,6 +39,10 @@ export const Disabled: ComponentStory<typeof Button> = ({
 Disabled.args = {
   ...Default.args,
 };
-Default.parameters = {
-  viewMode: "docs",
+
+export const LeadingIcon = Template.bind({});
+LeadingIcon.args = {
+  ...Default.args,
+  icon: ButtonIcon.only,
+  image: "/icons/alert-circle.svg",
 };
