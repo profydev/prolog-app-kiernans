@@ -1,7 +1,6 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Button, ButtonSize, ButtonColor } from "./button";
-import { userEvent, waitFor, within } from "@storybook/testing-library";
 
 export default {
   title: "UI/Button",
@@ -29,15 +28,19 @@ Default.parameters = {
   viewMode: "docs",
 };
 
-export const Focused = Template.bind({});
-Focused.play = async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
-  await canvas.getByRole("button").focus();
-};
-Default.args = {
-  children: "Button CTA",
-  size: ButtonSize.sm,
-  color: ButtonColor.primary,
+export const Disabled: ComponentStory<typeof Button> = ({
+  children,
+  size,
+  color,
+}) => (
+  <div style={{ padding: 50 }}>
+    <Button size={size} color={color} disabled>
+      {children}
+    </Button>
+  </div>
+);
+Disabled.args = {
+  ...Default.args,
 };
 Default.parameters = {
   viewMode: "docs",
