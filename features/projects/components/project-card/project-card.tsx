@@ -97,7 +97,7 @@ const IssuesNumber = styled.div`
   ${displayFont("md", "semibold")}
 `;
 
-const Status = styled.div`
+const StatusContainer = styled.div`
   // line-height of issue number element
   height: 2.75rem;
   margin-top: auto;
@@ -136,9 +136,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <IssuesTitle>Last 24h</IssuesTitle>
             <IssuesNumber>{numEvents24h}</IssuesNumber>
           </Issues>
-          <Status>
+          <StatusContainer>
             <Badge color={statusColor}>{capitalize(statusName)}</Badge>
-          </Status>
+          </StatusContainer>
         </InfoContainer>
       </TopContainer>
       <BottomContainer>
