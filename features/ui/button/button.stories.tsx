@@ -10,9 +10,14 @@ export default {
   },
 } as ComponentMeta<typeof Button>;
 
-const Template: ComponentStory<typeof Button> = ({ children, size, color }) => (
+const Template: ComponentStory<typeof Button> = ({
+  children,
+  size,
+  color,
+  icon,
+}) => (
   <div style={{ padding: 50 }}>
-    <Button size={size} color={color}>
+    <Button size={size} color={color} icon={icon}>
       {children}
     </Button>
   </div>
@@ -29,9 +34,10 @@ export const Disabled: ComponentStory<typeof Button> = ({
   children,
   size,
   color,
+  icon,
 }) => (
   <div style={{ padding: 50 }}>
-    <Button size={size} color={color} disabled>
+    <Button size={size} color={color} icon={icon} disabled>
       {children}
     </Button>
   </div>
