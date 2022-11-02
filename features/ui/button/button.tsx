@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes } from "react";
 import styled, { css } from "styled-components";
-import { color } from "@styles/theme";
+import { color, textFont } from "@styles/theme";
 
 export enum ButtonSize {
   sm = "sm",
@@ -33,6 +33,10 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   image?: string;
 };
 
+type ImageProps = {
+  color?: ButtonColor;
+};
+
 export const DefaultButton = styled.button`
   cursor: pointer;
 
@@ -52,34 +56,42 @@ export const DefaultButton = styled.button`
   }
 `;
 
-const Container = styled.button<{ size: ButtonSize; color: ButtonColor }>`
+const Container = styled.button<{
+  size: ButtonSize;
+  color: ButtonColor;
+  icon: ButtonIcon;
+}>`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0px;
-  border-radius: 8px;
+  padding: 10px 1rem;
+  border-radius: 0.5rem;
+  gap: 0.25rem;
+  ${textFont("sm", "regular")}
 
-  ${(props) => {
-    switch (props.size) {
+  ${({ size, icon }) => {
+    switch (size) {
       case ButtonSize.sm:
         return css`
           height: 2.25rem;
-          width: 6.56rem;
+          width: ${icon === ButtonIcon.only ? "fit-content" : "8.56rem"};
         `;
       case ButtonSize.md:
         return css`
           height: 2.5rem;
-          width: 6.81rem;
+          width: ${icon === ButtonIcon.only ? "fit-content" : "8.81rem"};
         `;
       case ButtonSize.lg:
         return css`
           height: 2.75rem;
-          width: 7.75rem;
+          width: ${icon === ButtonIcon.only ? "fit-content" : "9.75rem"};
+          ${textFont("md", "regular")}
         `;
       case ButtonSize.xl:
         return css`
           height: 3rem;
-          width: 8rem;
+          width: ${icon === ButtonIcon.only ? "fit-content" : "10rem"};
+          ${textFont("md", "regular")}
         `;
     }
   }}
@@ -202,33 +214,89 @@ const Container = styled.button<{ size: ButtonSize; color: ButtonColor }>`
   }}
 `;
 
-const Image = styled.img`
+const Image = styled.img<ImageProps>`
   width: 1.25rem;
   height: 1.25rem;
+
+  ${(props) => {
+    switch (props.color) {
+      case ButtonColor.primary:
+        return css`
+          filter: brightness(0) saturate(100%) invert(100%) sepia(6%)
+            saturate(0%) hue-rotate(332deg) brightness(104%) contrast(102%);
+        `;
+      case ButtonColor.secondary:
+        return css`
+          filter: brightness(0) saturate(100%) invert(20%) sepia(60%)
+            saturate(3142%) hue-rotate(248deg) brightness(101%) contrast(83%);
+
+          &:disabled {
+            filter: brightness(0) saturate(100%) invert(71%) sepia(48%)
+              saturate(682%) hue-rotate(203deg) brightness(108%) contrast(97%);
+          }
+        `;
+      case ButtonColor.gray:
+        return css`
+          filter: brightness(0) saturate(100%) invert(23%) sepia(8%)
+            saturate(2046%) hue-rotate(179deg) brightness(93%) contrast(89%);
+
+          &:disabled {
+            filter: brightness(0) saturate(100%) invert(94%) sepia(10%)
+              saturate(202%) hue-rotate(182deg) brightness(91%) contrast(89%);
+          }
+        `;
+      case ButtonColor.empty:
+        return css`
+          filter: brightness(0) saturate(100%) invert(30%) sepia(78%)
+            saturate(1610%) hue-rotate(239deg) brightness(79%) contrast(97%);
+          &:disabled {
+            filter: brightness(0) saturate(100%) invert(84%) sepia(4%)
+              saturate(451%) hue-rotate(178deg) brightness(106%) contrast(85%);
+          }
+        `;
+      case ButtonColor.emptyGray:
+        return css`
+          filter: brightness(0) saturate(100%) invert(44%) sepia(15%)
+            saturate(544%) hue-rotate(183deg) brightness(95%) contrast(90%);
+
+          &:disabled {
+            filter: brightness(0) saturate(100%) invert(85%) sepia(15%)
+              saturate(110%) hue-rotate(178deg) brightness(101%) contrast(87%);
+          }
+        `;
+      case ButtonColor.error:
+        return css`
+          filter: brightness(0) saturate(100%) invert(100%) sepia(6%)
+            saturate(0%) hue-rotate(332deg) brightness(104%) contrast(102%);
+        `;
+    }
+  }}
 `;
 
 export function Button({
   children,
   size = ButtonSize.md,
   color = ButtonColor.primary,
-  icon = ButtonIcon.none,
+  icon = ButtonIcon.only,
   image = "/icons/alert.svg",
   ...buttonProps
 }: ButtonProps) {
   return (
-    <Container size={size} color={color} {...buttonProps}>
+    <Container size={size} color={color} icon={icon} {...buttonProps}>
       {icon === ButtonIcon.leading && (
         <>
-          <Image src={image} alt="Button Icon" />
+          <Image src={image} alt="Button Icon" color={color} />
           {children}
         </>
       )}
-      {icon === ButtonIcon.only && <Image src={image} alt="Button Icon" />}
+      {icon === ButtonIcon.only && (
+        <Image src={image} alt="Button Icon" color={color} />
+      )}
       {icon === ButtonIcon.none && children}
       {icon === ButtonIcon.trailing && (
         <>
           {children}
-          <Image src={image} alt="Button Icon" />
+          <Image src={image} alt="Button Icon" color={color} />
         </>
       )}
     </Container>
