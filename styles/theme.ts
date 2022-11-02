@@ -41,6 +41,11 @@ export type Theme = {
     16: string;
     20: string;
     24: string;
+    32: string;
+    40: string;
+    48: string;
+    56: string;
+    64: string;
   };
   size: {
     headerHeight: string;
@@ -151,6 +156,11 @@ export const theme = {
     16: "4rem",
     20: "5rem",
     24: "6rem",
+    32: "8rem",
+    40: "10rem",
+    48: "12rem",
+    56: "14rem",
+    64: "16rem",
   },
   size: {
     headerHeight: "4rem",
