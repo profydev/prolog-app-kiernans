@@ -1,6 +1,6 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Checkbox, CheckboxSize, CheckboxState } from "./checkbox";
+import { Checkbox, CheckboxSize } from "./checkbox";
 
 export default {
   title: "UI/Checkbox",
@@ -10,22 +10,14 @@ export default {
   },
 } as ComponentMeta<typeof Checkbox>;
 
-const Template: ComponentStory<typeof Checkbox> = ({
-  children,
-  size,
-  state,
-  label,
-}) => (
+const Template: ComponentStory<typeof Checkbox> = ({ checkboxSize, label }) => (
   <div style={{ padding: 50 }}>
-    <Checkbox size={size} state={state} label={label}>
-      {children}
-    </Checkbox>
+    <Checkbox checkboxSize={checkboxSize} label={label} />
   </div>
 );
 
 export const Default = Template.bind({});
 Default.args = {
-  size: CheckboxSize.md,
-  state: CheckboxState.checked,
-  label: "Testing2",
+  checkboxSize: CheckboxSize.md,
+  label: "Label",
 };
