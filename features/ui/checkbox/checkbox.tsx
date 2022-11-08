@@ -8,9 +8,9 @@ export enum CheckboxSize {
 }
 
 export enum CheckboxState {
-  checked = 0,
+  unchecked = 0,
   partialChecked = 1,
-  unchecked = 2,
+  checked = 2,
 }
 
 type InputProps = {
@@ -23,7 +23,7 @@ type CheckboxProps = InputHTMLAttributes<HTMLInputElement> &
     label: string;
   };
 
-const Label = styled.label<{ size: CheckboxSize }>`
+const Label = styled.label<{ size: CheckboxSize; disabled: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,6 +42,12 @@ const Label = styled.label<{ size: CheckboxSize }>`
         `;
     }
   }}
+
+  ${(props) =>
+    props.disabled &&
+    css`
+      color: ${color("gray", 300)};
+    `}
 `;
 
 const Input = styled.input<InputProps>`
@@ -53,8 +59,18 @@ const Input = styled.input<InputProps>`
   outline: none;
   cursor: pointer;
 
-  ${(props) =>
-    props.checked &&
+  &:focus {
+    background-color: white;
+    box-shadow: 0px 0px 0px 4px ${color("primary", 100)};
+  }
+
+  &:disabled {
+    background-color: ${color("gray", 100)};
+    border: 1px solid ${color("gray", 200)};
+  }
+
+  ${({ checked }) =>
+    checked &&
     css`
       background: url("/icons/checkmark.svg");
       background-color: ${color("primary", 50)};
@@ -62,8 +78,8 @@ const Input = styled.input<InputProps>`
       background-position: center;
     `}
 
-  ${(props) =>
-    props.partiallyChecked &&
+  ${({ partiallyChecked }) =>
+    partiallyChecked &&
     css`
       background: url("/icons/partial-check.svg");
       background-color: ${color("primary", 50)};
@@ -71,8 +87,8 @@ const Input = styled.input<InputProps>`
       background-position: center;
     `}
 
-  ${(props) => {
-    switch (props.checkboxSize) {
+  ${({ checkboxSize }) => {
+    switch (checkboxSize) {
       case CheckboxSize.sm:
         return css`
           width: 1rem;
@@ -92,6 +108,7 @@ const Input = styled.input<InputProps>`
 export const Checkbox = ({
   checkboxSize = CheckboxSize.md,
   label = "Label",
+  disabled = false,
   ...checkboxProps
 }: CheckboxProps) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -114,13 +131,14 @@ export const Checkbox = ({
 
   return (
     <>
-      <Label size={checkboxSize}>
+      <Label size={checkboxSize} disabled={disabled}>
         <Input
           type="checkbox"
           checkboxSize={checkboxSize}
           onChange={handleInputChange}
           checked={isChecked}
           partiallyChecked={isPartiallyChecked}
+          disabled={disabled}
           {...checkboxProps}
         />
         <span>{label}</span>
