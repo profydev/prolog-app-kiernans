@@ -15,7 +15,6 @@ export type SelectProps = SelectHTMLAttributes<HTMLSelectElement> &
     icon?: string;
     label: string;
     hint?: string;
-    state?: SelectState;
     options?: string[] | undefined;
   };
 
@@ -25,6 +24,7 @@ export type OptionsProps = {
 
 type SelectOptionProps = {
   option: string;
+  icon?: string;
 };
 
 const Label = styled.label`
@@ -92,8 +92,12 @@ const StyledSelectOption = styled.option`
   color: ${color("gray", 900)};
 `;
 
-const SelectOption = ({ option }: SelectOptionProps) => {
-  return <StyledSelectOption>{option}</StyledSelectOption>;
+const SelectOption = ({ option, icon }: SelectOptionProps) => {
+  return (
+    <StyledSelectOption data-content='<img src={icon} alt="Option Icon" />'>
+      {option}
+    </StyledSelectOption>
+  );
 };
 
 export const Select = ({
@@ -101,7 +105,6 @@ export const Select = ({
   label,
   error,
   hint,
-  state,
   options,
   ...selectProps
 }: SelectProps) => {
@@ -117,7 +120,7 @@ export const Select = ({
           <Options ref={optionsRef} error={error} {...selectProps} required>
             <Placeholder hidden>Select team member</Placeholder>
             {options.map((option: string, index) => (
-              <SelectOption key={index} option={option} />
+              <SelectOption key={index} option={option} icon={icon} />
             ))}
           </Options>
         )}

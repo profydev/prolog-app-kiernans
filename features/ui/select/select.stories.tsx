@@ -1,6 +1,6 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Select, SelectState } from "./select";
+import { Select } from "./select";
 
 const selectOptions = [
   "Phoenix Baker",
@@ -25,7 +25,6 @@ const Template: ComponentStory<typeof Select> = ({
   label,
   error,
   hint,
-  state,
   options,
   ...selectProps
 }) => (
@@ -35,7 +34,6 @@ const Template: ComponentStory<typeof Select> = ({
       label={label}
       error={error}
       hint={hint}
-      state={state}
       options={options}
       {...selectProps}
     />
@@ -44,10 +42,9 @@ const Template: ComponentStory<typeof Select> = ({
 
 export const Default = Template.bind({});
 Default.args = {
-  icon: "none",
+  icon: "/icons/select-icon.svg",
   label: "Team Member",
   hint: "This is a hint to help the user.",
-  state: SelectState.open,
   options: selectOptions,
 };
 
