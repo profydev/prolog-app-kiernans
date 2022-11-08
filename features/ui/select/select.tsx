@@ -89,7 +89,9 @@ const SelectIcon = styled.img`
 
 const SelectedValue = styled.div``;
 
-const SelectArrow = styled.img``;
+const SelectArrow = styled.img<{ showMenu: boolean }>`
+  ${({ showMenu }) => showMenu && "transform: rotate(180deg)"};
+`;
 
 const SelectOptions = styled.div`
   background-color: white;
@@ -113,6 +115,11 @@ const OptionContent = styled.div`
   gap: 0.75rem;
 `;
 
+const OptionText = styled.span`
+  ${textFont("md", "regular")};
+  color: ${color("gray", 900)};
+`;
+
 const SelectCheckmark = styled.img``;
 
 const SelectOption = ({ option, icon }: SelectOptionProps) => {
@@ -121,7 +128,7 @@ const SelectOption = ({ option, icon }: SelectOptionProps) => {
       <OptionContent>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <SelectIcon src={icon} alt="Option Icon" />
-        <span>{option}</span>
+        <OptionText>{option}</OptionText>
       </OptionContent>
       <SelectCheckmark
         src="/icons/select-checkmark.svg"
@@ -168,15 +175,17 @@ export const Select = ({
           <SelectIcon src={icon} />
           <SelectedValue>{getDisplay()}</SelectedValue>
         </SelectContent>
-        <SelectArrow src="/icons/select-arrow.svg" />
+        <SelectArrow src="/icons/select-arrow.svg" showMenu={showMenu} />
       </SelectInput>
-      <SelectOptions>
-        {options &&
-          options.length > 0 &&
-          options.map((option: string, index) => (
-            <SelectOption key={index} option={option} icon={icon} />
-          ))}
-      </SelectOptions>
+      {showMenu && (
+        <SelectOptions>
+          {options &&
+            options.length > 0 &&
+            options.map((option: string, index) => (
+              <SelectOption key={index} option={option} icon={icon} />
+            ))}
+        </SelectOptions>
+      )}
     </Container>
   );
 };
