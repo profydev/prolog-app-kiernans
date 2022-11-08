@@ -26,6 +26,7 @@ export type SelectInputProps = {
 type SelectOptionProps = {
   option: string;
   icon?: string;
+  onClick: () => void;
 };
 
 const Container = styled.div`
@@ -34,6 +35,11 @@ const Container = styled.div`
   width: 22rem;
   padding: 0.625rem 0.875rem;
   gap: ${space(2)};
+  // Make text unselectable
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 `;
 
 const Label = styled.div`
@@ -108,6 +114,10 @@ const Option = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
+
+  &:hover {
+    background-color: ${color("primary", 25)};
+  }
 `;
 
 const OptionContent = styled.div`
@@ -123,17 +133,26 @@ const OptionText = styled.span`
 const SelectCheckmark = styled.img``;
 
 const SelectOption = ({ option, icon }: SelectOptionProps) => {
+  const [showCheck, setShowCheck] = useState(false);
+
+  const handleOptionClick = (e: React.SyntheticEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    setShowCheck(!showCheck);
+  };
+
   return (
-    <Option>
+    <Option onClick={handleOptionClick}>
       <OptionContent>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <SelectIcon src={icon} alt="Option Icon" />
         <OptionText>{option}</OptionText>
       </OptionContent>
-      <SelectCheckmark
-        src="/icons/select-checkmark.svg"
-        alt="Select Checkmark"
-      />
+      {showCheck && (
+        <SelectCheckmark
+          src="/icons/select-checkmark.svg"
+          alt="Select Checkmark"
+        />
+      )}
     </Option>
   );
 };
@@ -148,9 +167,12 @@ export const Select = ({
   ...selectProps
 }: SelectProps) => {
   const [showMenu, setShowMenu] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("");
 
   useEffect(() => {
-    const handler = () => setShowMenu(false);
+    const handler = () => {
+      setShowMenu(false);
+    };
 
     window.addEventListener("click", handler);
     return () => {
@@ -159,7 +181,16 @@ export const Select = ({
   });
 
   const getDisplay = () => {
+    if (selectedValue) {
+      return selectedValue;
+    }
     return placeholder;
+  };
+
+  const onOptionClick = (option: string) => {
+    // eslint-disable-next-line no-debugger
+    debugger;
+    setSelectedValue(option);
   };
 
   const handleInputClick = (e: React.SyntheticEvent<HTMLDivElement>) => {
@@ -182,7 +213,12 @@ export const Select = ({
           {options &&
             options.length > 0 &&
             options.map((option: string, index) => (
-              <SelectOption key={index} option={option} icon={icon} />
+              <SelectOption
+                onClick={() => onOptionClick(option)}
+                key={index}
+                option={option}
+                icon={icon}
+              />
             ))}
         </SelectOptions>
       )}
