@@ -21,6 +21,7 @@ export default {
 } as ComponentMeta<typeof Select>;
 
 const Template: ComponentStory<typeof Select> = ({
+  placeholder,
   icon,
   label,
   error,
@@ -30,6 +31,7 @@ const Template: ComponentStory<typeof Select> = ({
 }) => (
   <div style={{ padding: 50 }}>
     <Select
+      placeholder={placeholder}
       icon={icon}
       label={label}
       error={error}
@@ -42,6 +44,7 @@ const Template: ComponentStory<typeof Select> = ({
 
 export const Default = Template.bind({});
 Default.args = {
+  placeholder: "Select a team member...",
   icon: "/icons/select-icon.svg",
   label: "Team Member",
   hint: "This is a hint to help the user.",

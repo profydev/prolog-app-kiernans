@@ -1,4 +1,4 @@
-import React, { SelectHTMLAttributes, useRef } from "react";
+import React, { SelectHTMLAttributes, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { color, textFont, space } from "@styles/theme";
 
@@ -11,14 +11,15 @@ export enum SelectState {
 }
 
 export type SelectProps = SelectHTMLAttributes<HTMLSelectElement> &
-  OptionsProps & {
+  SelectInputProps & {
+    placeholder?: string;
     icon?: string;
     label: string;
     hint?: string;
     options?: string[] | undefined;
   };
 
-export type OptionsProps = {
+export type SelectInputProps = {
   error?: string;
 };
 
@@ -27,20 +28,23 @@ type SelectOptionProps = {
   icon?: string;
 };
 
-const Label = styled.label`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
+  width: 22rem;
   padding: 0.625rem 0.875rem;
   gap: ${space(2)};
 `;
 
-const LabelText = styled.span`
+const Label = styled.div`
   ${textFont("sm", "medium")};
   color: ${color("gray", 700)};
 `;
 
-const Options = styled.select<OptionsProps>`
-  width: 20rem;
+const SelectInput = styled.div<SelectInputProps>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   height: ${space(12)};
   background-color: white;
   border: 1px solid ${color("gray", 300)};
@@ -48,6 +52,7 @@ const Options = styled.select<OptionsProps>`
   border-radius: ${space(2)};
   ${textFont("md", "regular")};
   color: ${color("gray", 500)};
+  padding: 0rem 1rem;
 
   &:focus {
     ${({ error }) =>
@@ -72,35 +77,62 @@ const Options = styled.select<OptionsProps>`
     `};
 `;
 
-const Placeholder = styled.option`
-  ${textFont("md", "regular")};
-  color: ${color("gray", 500)};
+const SelectContent = styled.div`
+  display: flex;
+  gap: 0.75rem;
 `;
 
-const Hint = styled.span`
-  ${textFont("sm", "regular")};
-  color: ${color("gray", 500)};
+const SelectIcon = styled.img`
+  width: 1.25rem;
+  height: 1.25rem;
 `;
 
-const Error = styled.span`
-  ${textFont("sm", "regular")};
-  color: ${color("error", 500)};
+const SelectedValue = styled.div``;
+
+const SelectArrow = styled.img``;
+
+const SelectOptions = styled.div`
+  background-color: white;
+  box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.1),
+    0px 4px 6px -2px rgba(16, 24, 40, 0.05);
+  border-radius: ${space(2)};
+  position: absolute;
+  top: 8.75rem;
+  width: 22rem;
 `;
 
-const StyledSelectOption = styled.option`
-  ${textFont("md", "regular")};
-  color: ${color("gray", 900)};
+const Option = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
 `;
+
+const OptionContent = styled.div`
+  display: flex;
+  gap: 0.75rem;
+`;
+
+const SelectCheckmark = styled.img``;
 
 const SelectOption = ({ option, icon }: SelectOptionProps) => {
   return (
-    <StyledSelectOption data-content='<img src={icon} alt="Option Icon" />'>
-      {option}
-    </StyledSelectOption>
+    <Option>
+      <OptionContent>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <SelectIcon src={icon} alt="Option Icon" />
+        <span>{option}</span>
+      </OptionContent>
+      <SelectCheckmark
+        src="/icons/select-checkmark.svg"
+        alt="Select Checkmark"
+      />
+    </Option>
   );
 };
 
 export const Select = ({
+  placeholder,
   icon,
   label,
   error,
@@ -108,25 +140,43 @@ export const Select = ({
   options,
   ...selectProps
 }: SelectProps) => {
-  const optionsRef = useRef<HTMLSelectElement>(null);
-  if (optionsRef.current && optionsRef.current.validationMessage) {
-    error = optionsRef.current.validationMessage;
-  }
+  const [showMenu, setShowMenu] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setShowMenu(false);
+
+    window.addEventListener("click", handler);
+    return () => {
+      window.removeEventListener("click", handler);
+    };
+  });
+
+  const getDisplay = () => {
+    return placeholder;
+  };
+
+  const handleInputClick = (e: React.SyntheticEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    setShowMenu(!showMenu);
+  };
+
   return (
-    <form>
-      <Label>
-        {label && <LabelText>{label}</LabelText>}
-        {options && options.length > 0 && (
-          <Options ref={optionsRef} error={error} {...selectProps} required>
-            <Placeholder hidden>Select team member</Placeholder>
-            {options.map((option: string, index) => (
-              <SelectOption key={index} option={option} icon={icon} />
-            ))}
-          </Options>
-        )}
-        {hint && !error && <Hint>{hint}</Hint>}
-        {error && <Error>{error}</Error>}
-      </Label>
-    </form>
+    <Container>
+      <Label>{label}</Label>
+      <SelectInput onClick={handleInputClick} error={error}>
+        <SelectContent>
+          <SelectIcon src={icon} />
+          <SelectedValue>{getDisplay()}</SelectedValue>
+        </SelectContent>
+        <SelectArrow src="/icons/select-arrow.svg" />
+      </SelectInput>
+      <SelectOptions>
+        {options &&
+          options.length > 0 &&
+          options.map((option: string, index) => (
+            <SelectOption key={index} option={option} icon={icon} />
+          ))}
+      </SelectOptions>
+    </Container>
   );
 };
