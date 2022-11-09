@@ -7,7 +7,6 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   hint?: string;
   error?: string;
-  disabled?: boolean;
 };
 
 const Container = styled.div`
@@ -48,20 +47,24 @@ const InputField = styled.input<InputProps>`
           `};
   }
 
-  ${({ error, disabled }) =>
-    !disabled &&
+  &:disabled {
+    background-color: ${color("gray", 50)};
+    border: 1px solid ${color("gray", 300)};
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    color: ${color("gray", 500)};
+
+    ${({ error }) =>
+      error &&
+      css`
+        background-color: white;
+        border: 1px solid ${color("error", 300)};
+      `}
+  }
+
+  ${({ error }) =>
     error &&
     css`
       border: 1px solid ${color("error", 300)};
-    `};
-
-  ${({ disabled }) =>
-    disabled &&
-    css`
-      background-color: ${color("gray", 50)};
-      border: 1px solid ${color("gray", 500)};
-      box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-      color: ${color("gray", 500)};
     `};
 
   ${({ icon }) =>
@@ -73,6 +76,12 @@ const InputField = styled.input<InputProps>`
           padding: 0rem 1rem;
           width: 20rem;
         `};
+
+  ${({ label }) =>
+    !label &&
+    css`
+      margin-top: 1.8rem;
+    `}
 `;
 
 const Label = styled.div`
@@ -107,11 +116,11 @@ const ErrorIcon = styled.img`
 `;
 
 export const Input = ({
+  placeholder,
   icon,
   label,
   error,
   hint,
-  disabled,
   ...inputProps
 }: InputProps) => {
   const [inputValue, setInputValue] = useState("");
@@ -126,9 +135,10 @@ export const Input = ({
       {icon && <InputIcon src={icon} alt="Input Icon" />}
       <InputField
         type="text"
+        placeholder={placeholder}
         error={error}
         icon={icon}
-        disabled={disabled}
+        label={label}
         value={inputValue}
         onChange={handleInputChange}
         {...inputProps}
