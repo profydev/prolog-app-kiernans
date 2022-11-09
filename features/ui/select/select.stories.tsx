@@ -56,3 +56,9 @@ Error.args = {
   ...Default.args,
   error: "This is an error message.",
 };
+
+export const NoIcon = Template.bind({});
+NoIcon.args = {
+  ...Default.args,
+  icon: "",
+};

@@ -159,7 +159,7 @@ const SelectOption = ({
     <Option onClick={handleOptionClick}>
       <OptionContent>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <SelectIcon src={icon} alt="Option Icon" />
+        {icon && <SelectIcon src={icon} alt="Option Icon" />}
         <OptionText>{option}</OptionText>
       </OptionContent>
       {showCheck && (
@@ -216,7 +216,7 @@ export const Select = ({
       <Label>{label}</Label>
       <SelectInput onClick={handleInputClick} error={error} showMenu={showMenu}>
         <SelectContent>
-          <SelectIcon src={icon} />
+          {icon && <SelectIcon src={icon} />}
           <SelectedValue>{getDisplay()}</SelectedValue>
         </SelectContent>
         <SelectArrow src="/icons/select-arrow.svg" showMenu={showMenu} />
