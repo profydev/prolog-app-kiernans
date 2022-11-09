@@ -10,17 +10,17 @@ export enum SelectState {
   open = "open",
 }
 
-export type SelectProps = SelectHTMLAttributes<HTMLSelectElement> &
-  SelectInputProps & {
-    placeholder?: string;
-    icon?: string;
-    label: string;
-    hint?: string;
-    options?: string[] | undefined;
-  };
+export type SelectProps = SelectInputProps & {
+  placeholder?: string;
+  icon?: string;
+  label: string;
+  hint?: string;
+  options?: string[] | undefined;
+};
 
 export type SelectInputProps = {
   error?: string;
+  showMenu?: boolean;
 };
 
 type SelectOptionProps = {
@@ -60,21 +60,20 @@ const SelectInput = styled.div<SelectInputProps>`
   color: ${color("gray", 500)};
   padding: 0rem 1rem;
 
-  &:focus {
-    ${({ error }) =>
-      error
-        ? css`
-            box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
-              0px 0px 0px 4px ${color("error", 100)};
-            outline: 0 !important;
-          `
-        : css`
-            box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
-              0px 0px 0px 4px ${color("primary", 100)};
-            border: 1px solid ${color("primary", 300)};
-            outline: 0 !important;
-          `};
-  }
+  ${({ error, showMenu }) =>
+    showMenu &&
+    (error
+      ? css`
+          box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
+            0px 0px 0px 4px ${color("error", 100)};
+          outline: 0 !important;
+        `
+      : css`
+          box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
+            0px 0px 0px 4px ${color("primary", 100)};
+          border: 1px solid ${color("primary", 300)};
+          outline: 0 !important;
+        `)};
 
   ${({ error }) =>
     error &&
@@ -115,7 +114,7 @@ const SelectOptions = styled.div`
     0px 4px 6px -2px rgba(16, 24, 40, 0.05);
   border-radius: ${space(2)};
   position: absolute;
-  top: 8.75rem;
+  top: 8.85rem;
   width: 22rem;
 `;
 
@@ -204,7 +203,6 @@ export const Select = ({
   };
 
   const onOptionClick = (option: string) => {
-    console.log("Im here");
     setSelectedValue(option);
   };
 
@@ -216,15 +214,15 @@ export const Select = ({
   return (
     <Container>
       <Label>{label}</Label>
-      <SelectInput onClick={handleInputClick} error={error}>
+      <SelectInput onClick={handleInputClick} error={error} showMenu={showMenu}>
         <SelectContent>
           <SelectIcon src={icon} />
           <SelectedValue>{getDisplay()}</SelectedValue>
         </SelectContent>
         <SelectArrow src="/icons/select-arrow.svg" showMenu={showMenu} />
       </SelectInput>
-      {hint && !error && <Hint>{hint}</Hint>}
-      {error && <Error>{error}</Error>}
+      {hint && !error && !showMenu && <Hint>{hint}</Hint>}
+      {error && !showMenu && <Error>{error}</Error>}
       {showMenu && (
         <SelectOptions>
           {options &&
