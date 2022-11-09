@@ -26,7 +26,7 @@ export type SelectInputProps = {
 type SelectOptionProps = {
   option: string;
   icon?: string;
-  onClick: () => void;
+  setSelectedValue: (option: string) => void;
 };
 
 const Container = styled.div`
@@ -115,7 +115,8 @@ const Option = styled.div`
   justify-content: space-between;
   padding: 1rem;
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: ${color("primary", 25)};
   }
 `;
@@ -132,12 +133,17 @@ const OptionText = styled.span`
 
 const SelectCheckmark = styled.img``;
 
-const SelectOption = ({ option, icon }: SelectOptionProps) => {
+const SelectOption = ({
+  option,
+  icon,
+  setSelectedValue,
+}: SelectOptionProps) => {
   const [showCheck, setShowCheck] = useState(false);
 
   const handleOptionClick = (e: React.SyntheticEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setShowCheck(!showCheck);
+    setSelectedValue(option);
   };
 
   return (
@@ -188,8 +194,7 @@ export const Select = ({
   };
 
   const onOptionClick = (option: string) => {
-    // eslint-disable-next-line no-debugger
-    debugger;
+    console.log("Im here");
     setSelectedValue(option);
   };
 
@@ -214,7 +219,7 @@ export const Select = ({
             options.length > 0 &&
             options.map((option: string, index) => (
               <SelectOption
-                onClick={() => onOptionClick(option)}
+                setSelectedValue={onOptionClick}
                 key={index}
                 option={option}
                 icon={icon}
