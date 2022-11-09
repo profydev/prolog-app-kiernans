@@ -99,6 +99,16 @@ const SelectArrow = styled.img<{ showMenu: boolean }>`
   ${({ showMenu }) => showMenu && "transform: rotate(180deg)"};
 `;
 
+const Hint = styled.span`
+  ${textFont("sm", "regular")};
+  color: ${color("gray", 500)};
+`;
+
+const Error = styled.span`
+  ${textFont("sm", "regular")};
+  color: ${color("error", 500)};
+`;
+
 const SelectOptions = styled.div`
   background-color: white;
   box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.1),
@@ -213,6 +223,8 @@ export const Select = ({
         </SelectContent>
         <SelectArrow src="/icons/select-arrow.svg" showMenu={showMenu} />
       </SelectInput>
+      {hint && !error && <Hint>{hint}</Hint>}
+      {error && <Error>{error}</Error>}
       {showMenu && (
         <SelectOptions>
           {options &&
