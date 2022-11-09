@@ -1,4 +1,4 @@
-import React, { SelectHTMLAttributes, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { color, textFont, space } from "@styles/theme";
 
@@ -15,12 +15,13 @@ export type SelectProps = SelectInputProps & {
   icon?: string;
   label: string;
   hint?: string;
-  options?: string[] | undefined;
+  options?: string[];
 };
 
 export type SelectInputProps = {
   error?: string;
   showMenu?: boolean;
+  disabled?: boolean;
 };
 
 type SelectOptionProps = {
@@ -57,7 +58,7 @@ const SelectInput = styled.div<SelectInputProps>`
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: ${space(2)};
   ${textFont("md", "regular")};
-  color: ${color("gray", 500)};
+  color: ${color("gray", 900)};
   padding: 0rem 1rem;
 
   ${({ error, showMenu }) =>
@@ -75,10 +76,20 @@ const SelectInput = styled.div<SelectInputProps>`
           outline: 0 !important;
         `)};
 
-  ${({ error }) =>
+  ${({ error, disabled }) =>
+    !disabled &&
     error &&
     css`
       border: 1px solid ${color("error", 300)};
+    `};
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      background-color: ${color("gray", 50)};
+      border: 1px solid ${color("gray", 500)};
+      box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+      color: ${color("gray", 500)};
     `};
 `;
 
@@ -151,8 +162,8 @@ const SelectOption = ({
 
   const handleOptionClick = (e: React.SyntheticEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    setShowCheck(!showCheck);
     setSelectedValue(option);
+    setShowCheck(!showCheck);
   };
 
   return (
@@ -179,7 +190,7 @@ export const Select = ({
   error,
   hint,
   options,
-  ...selectProps
+  disabled,
 }: SelectProps) => {
   const [showMenu, setShowMenu] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
@@ -208,13 +219,20 @@ export const Select = ({
 
   const handleInputClick = (e: React.SyntheticEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    setShowMenu(!showMenu);
+    if (!disabled) {
+      setShowMenu(!showMenu);
+    }
   };
 
   return (
     <Container>
       <Label>{label}</Label>
-      <SelectInput onClick={handleInputClick} error={error} showMenu={showMenu}>
+      <SelectInput
+        onClick={handleInputClick}
+        error={error}
+        showMenu={showMenu}
+        disabled={disabled}
+      >
         <SelectContent>
           {icon && <SelectIcon src={icon} />}
           <SelectedValue>{getDisplay()}</SelectedValue>
@@ -222,7 +240,7 @@ export const Select = ({
         <SelectArrow src="/icons/select-arrow.svg" showMenu={showMenu} />
       </SelectInput>
       {hint && !error && !showMenu && <Hint>{hint}</Hint>}
-      {error && !showMenu && <Error>{error}</Error>}
+      {error && !showMenu && !disabled && <Error>{error}</Error>}
       {showMenu && (
         <SelectOptions>
           {options &&

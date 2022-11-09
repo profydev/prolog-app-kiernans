@@ -3,13 +3,13 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Select } from "./select";
 
 const selectOptions = [
-  "Phoenix Baker",
-  "Olivia Rhye",
-  "Lana Steiner",
-  "Demi Wilkinson",
-  "Candice Wu",
-  "Natali Craig",
-  "Drew Cano",
+  "Phoenix Wright",
+  "Maya Fey",
+  "Miles Edgeworth",
+  "Pearl Fey",
+  "Dick Gumshoe",
+  "Diego Armando",
+  "Larry Butz",
 ];
 
 export default {
@@ -61,4 +61,10 @@ export const NoIcon = Template.bind({});
 NoIcon.args = {
   ...Default.args,
   icon: "",
+};
+
+export const Disabled = Template.bind({});
+Disabled.args = {
+  ...Default.args,
+  disabled: true,
 };
