@@ -31,7 +31,6 @@ const InputField = styled.input<InputProps>`
   border-radius: ${space(2)};
   ${textFont("md", "regular")};
   color: ${color("gray", 900)};
-  padding: 0rem ${space(12)};
 
   &:focus {
     ${({ error }) =>
@@ -66,10 +65,14 @@ const InputField = styled.input<InputProps>`
     `};
 
   ${({ icon }) =>
-    !icon &&
-    css`
-      padding: 0rem 1rem;
-    `};
+    icon
+      ? css`
+          padding: 0rem ${space(12)};
+        `
+      : css`
+          padding: 0rem 1rem;
+          width: 20rem;
+        `};
 `;
 
 const Label = styled.div`
@@ -124,6 +127,7 @@ export const Input = ({
       <InputField
         type="text"
         error={error}
+        icon={icon}
         disabled={disabled}
         value={inputValue}
         onChange={handleInputChange}
