@@ -7,22 +7,10 @@ export enum ProjectLanguage {
 }
 
 export enum ProjectStatus {
-  stable = "stable",
+  stable = "info",
   warning = "warning",
-  critical = "critical",
+  critical = "error",
 }
-
-export enum ProjectStatusNames {
-  warning = "warning",
-  error = "error",
-  info = "info",
-}
-
-export type Status = {
-  warning: string;
-  error: string;
-  info: string;
-};
 
 export type StatusColors = {
   [ProjectStatus.stable]: BadgeColor;
