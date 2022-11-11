@@ -1,5 +1,3 @@
-import { BadgeColor } from "@features/ui";
-
 export enum ProjectLanguage {
   react = "react",
   node = "node",
@@ -11,12 +9,6 @@ export enum ProjectStatus {
   warning = "warning",
   critical = "error",
 }
-
-export type StatusColors = {
-  [ProjectStatus.stable]: BadgeColor;
-  [ProjectStatus.warning]: BadgeColor;
-  [ProjectStatus.critical]: BadgeColor;
-};
 
 export type Project = {
   id: string;

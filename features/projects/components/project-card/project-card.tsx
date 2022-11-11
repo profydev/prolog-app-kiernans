@@ -5,7 +5,6 @@ import {
   Project,
   ProjectLanguage,
   ProjectStatus,
-  StatusColors,
 } from "../../types/project.types";
 import { color, displayFont, space, textFont } from "@styles/theme";
 import { Routes } from "@config/routes";
