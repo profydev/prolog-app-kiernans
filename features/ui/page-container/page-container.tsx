@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { SidebarNavigation } from "@features/ui";
 import { color, displayFont, textFont, space, breakpoint } from "@styles/theme";
 import { Footer } from "../footer";
-import { version } from "../../../package.json";
+import packageInfo from "../../../package.json";
 
 type PageContainerProps = {
   children: React.ReactNode;
@@ -70,7 +70,7 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
           <Info>{info}</Info>
           {children}
         </ContentContainer>
-        <Footer version={version} />
+        <Footer version={packageInfo.version} />
       </Main>
     </Container>
   );
