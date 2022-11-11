@@ -16,9 +16,9 @@ const Header = styled.header`
 `;
 
 const ContactButton = styled.button`
-  position: absolute;
-  bottom: 2.5rem;
-  right: 2.5rem;
+  position: relative;
+  top: 45rem;
+  left: 103rem;
   padding: 1rem;
   background: #7f56d9;
   border-radius: 50%;
@@ -59,8 +59,8 @@ const ModalBackground = styled.div`
   justify-content: center;
   align-items: center;
   background-color: rgba(52, 64, 84, 0.6);
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100%;
   z-index: 0;
   position: absolute;
   top: 0px;
@@ -73,8 +73,8 @@ const Modal = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 400px;
-  height: 288px;
+  width: 25rem;
+  height: 18rem;
   background: #ffffff;
   box-shadow: 0px 20px 24px -4px rgba(16, 24, 40, 0.1),
     0px 8px 8px -4px rgba(16, 24, 40, 0.04);
@@ -157,6 +157,24 @@ const ModalEmailButton = styled(ModalButton)`
   color: white;
 `;
 
+const HeroContainer = styled.div`
+  border: 1px solid black;
+  width: 100%;
+  height: 53.75rem;
+`;
+
+const SocialContainer = styled.div`
+  border: 1px solid red;
+  width: 100%;
+  height: ${space(64)};
+`;
+
+const TestimonialContainer = styled.div`
+  border: 1px solid green;
+  width: 100%;
+  height: 50rem;
+`;
+
 const IssuesPage = () => {
   const [openModal, setOpenModal] = useState(false);
 
@@ -183,10 +201,14 @@ const IssuesPage = () => {
           <DashboardButton>Open Dashboard</DashboardButton>
         </a>
       </Header>
-      <ContactButton onClick={() => setOpenModal(true)}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/icons/message.svg" alt="Contact" />
-      </ContactButton>
+      <HeroContainer></HeroContainer>
+      <SocialContainer></SocialContainer>
+      <TestimonialContainer>
+        <ContactButton onClick={() => setOpenModal(true)}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/icons/message.svg" alt="Contact" />
+        </ContactButton>
+      </TestimonialContainer>
       {openModal && (
         <ModalBackground>
           <Modal>
