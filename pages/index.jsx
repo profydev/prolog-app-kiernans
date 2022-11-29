@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Header, Modal } from "../features/ui";
 import styled from "styled-components";
 import { space } from "@styles/theme";
-import { Hero, Social, Testimonial, useHome } from "../features/home";
+import { Section, useHome } from "../features/home";
 
 const ContactButton = styled.button`
   position: relative;
@@ -21,18 +21,29 @@ const ContactButton = styled.button`
 `;
 
 const HeroContainer = styled.div`
-  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 53.75rem;
+  gap: ${space(16)};
+  padding: ${space(24)}, 0px;
 `;
 
 const SocialContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 1px solid red;
   width: 100%;
   height: ${space(64)};
 `;
 
 const TestimonialContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 1px solid green;
   width: 100%;
   height: 50rem;
@@ -47,13 +58,19 @@ const IssuesPage = () => {
   };
 
   if (!isLoading) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { meta, sections } = data;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const heroSection = sections?.find(
       (section) => section.sectionType === "hero"
     );
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const socialSection = sections?.find(
       (section) => section.sectionType === "social-proof"
     );
+
+    console.log(sections);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const testimonialSection = sections?.find(
       (section) => section.sectionType === "testimonials"
     );
@@ -72,13 +89,16 @@ const IssuesPage = () => {
     <div>
       <Header />
       <HeroContainer>
-        <Hero />
+        {/*eslint-disable-next-line no-undef */}
+        <Section content={heroSection} />
       </HeroContainer>
       <SocialContainer>
-        <Social />
+        {/*eslint-disable-next-line no-undef */}
+        <Section content={socialSection} />
       </SocialContainer>
       <TestimonialContainer>
-        <Testimonial />
+        {/*eslint-disable-next-line no-undef */}
+        <Section content={testimonialSection} />
         <ContactButton onClick={() => setOpenModal(true)}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/icons/message.svg" alt="Contact" />
