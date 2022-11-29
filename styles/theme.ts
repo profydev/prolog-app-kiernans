@@ -47,6 +47,12 @@ export type Theme = {
     56: string;
     64: string;
   };
+  container: {
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+  };
   size: {
     headerHeight: string;
   };
@@ -161,6 +167,12 @@ export const theme = {
     48: "12rem",
     56: "14rem",
     64: "16rem",
+  },
+  container: {
+    sm: "40rem",
+    md: "48rem",
+    lg: "64rem",
+    xl: "80rem",
   },
   size: {
     headerHeight: "4rem",
@@ -410,6 +422,13 @@ export function space(...names: Array<keyof Theme["space"]>) {
   return ({ theme }: { theme: Theme }) => {
     const spaces = names.map((name) => theme.space[name]);
     return spaces.join(" ");
+  };
+}
+
+export function container(...names: Array<keyof Theme["container"]>) {
+  return ({ theme }: { theme: Theme }) => {
+    const containers = names.map((name) => theme.container[name]);
+    return containers.join(" ");
   };
 }
 
