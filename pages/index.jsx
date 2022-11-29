@@ -4,22 +4,6 @@ import styled from "styled-components";
 import { space } from "@styles/theme";
 import { Section, useHome } from "../features/home";
 
-const ContactButton = styled.button`
-  position: relative;
-  top: 45rem;
-  left: 103rem;
-  padding: 1rem;
-  background: #7f56d9;
-  border-radius: 50%;
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    background: #6941c6;
-  }
-`;
-
 const HeroContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,11 +17,13 @@ const HeroContainer = styled.div`
 
 const SocialContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border: 1px solid red;
   width: 100%;
   height: ${space(64)};
+  padding: ${space(24)}, 0px;
 `;
 
 const TestimonialContainer = styled.div`
@@ -47,14 +33,20 @@ const TestimonialContainer = styled.div`
   border: 1px solid green;
   width: 100%;
   height: 50rem;
+  padding: ${space(24)}, 0px;
 `;
 
 const IssuesPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const { data, isError, isLoading, error } = useHome();
 
-  const closeModal = () => {
+  const handleCloseModal = () => {
     setOpenModal(false);
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    window.scrollTo({ top: 0, left: 0 });
   };
 
   if (!isLoading) {
@@ -88,23 +80,16 @@ const IssuesPage = () => {
   return (
     <div>
       <Header />
-      <HeroContainer>
-        {/*eslint-disable-next-line no-undef */}
-        <Section content={heroSection} />
-      </HeroContainer>
-      <SocialContainer>
-        {/*eslint-disable-next-line no-undef */}
-        <Section content={socialSection} />
-      </SocialContainer>
-      <TestimonialContainer>
-        {/*eslint-disable-next-line no-undef */}
-        <Section content={testimonialSection} />
-        <ContactButton onClick={() => setOpenModal(true)}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icons/message.svg" alt="Contact" />
-        </ContactButton>
-      </TestimonialContainer>
-      {openModal && <Modal closeModal={closeModal} />}
+
+      {/*eslint-disable-next-line no-undef */}
+      <Section content={heroSection} />
+
+      {/*eslint-disable-next-line no-undef */}
+      <Section content={socialSection} />
+
+      {/*eslint-disable-next-line no-undef */}
+      <Section content={testimonialSection} openModal={handleOpenModal} />
+      {openModal && <Modal closeModal={handleCloseModal} />}
     </div>
   );
 };
