@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Header, Modal } from "../features/ui";
 import styled from "styled-components";
 import { space } from "@styles/theme";
+import { Hero, Social, Testimonial, useHome } from "../features/home";
 
 const ContactButton = styled.button`
   position: relative;
@@ -39,16 +40,45 @@ const TestimonialContainer = styled.div`
 
 const IssuesPage = () => {
   const [openModal, setOpenModal] = useState(false);
+  const { data, isError, isLoading, error } = useHome();
+
   const closeModal = () => {
     setOpenModal(false);
   };
 
+  if (!isLoading) {
+    const { meta, sections } = data;
+    const heroSection = sections?.find(
+      (section) => section.sectionType === "hero"
+    );
+    const socialSection = sections?.find(
+      (section) => section.sectionType === "social-proof"
+    );
+    const testimonialSection = sections?.find(
+      (section) => section.sectionType === "testimonials"
+    );
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    console.error(error);
+    return <div>{error}</div>;
+  }
+
   return (
     <div>
       <Header />
-      <HeroContainer></HeroContainer>
-      <SocialContainer></SocialContainer>
+      <HeroContainer>
+        <Hero />
+      </HeroContainer>
+      <SocialContainer>
+        <Social />
+      </SocialContainer>
       <TestimonialContainer>
+        <Testimonial />
         <ContactButton onClick={() => setOpenModal(true)}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/icons/message.svg" alt="Contact" />
