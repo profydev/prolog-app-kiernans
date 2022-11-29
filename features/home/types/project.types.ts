@@ -18,6 +18,25 @@ type Testimonial = {
   userRole: string;
 };
 
+export type SectionProps = {
+  content: Content;
+  openModal: () => void;
+};
+
+export type TitleProps = {
+  sectionType?: string;
+};
+
+export type ContainerProps = {
+  sectionType?: string;
+};
+
+export enum SectionType {
+  hero = "hero",
+  social = "social-proof",
+  testimonials = "testimonials",
+}
+
 export type Content = {
   image?: Image;
   sectionType: string;
