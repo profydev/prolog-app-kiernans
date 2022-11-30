@@ -9,9 +9,10 @@ import {
   TitleProps,
 } from "../types/project.types";
 import { space, textFont, color, container, displayFont } from "@styles/theme";
+import { Testimonial } from "./testimonial";
 
 const Container = styled.div<ContainerProps>`
-  ${({ sectionType }) => {
+  ${({ sectionType, background }) => {
     switch (sectionType) {
       case SectionType.hero:
         return css`
@@ -22,28 +23,48 @@ const Container = styled.div<ContainerProps>`
           width: 100%;
           height: 53.75rem;
           gap: ${space(16)};
-          padding: ${space(24)}, 0px;
+          padding: ${space(24)} 0px;
+          ${background === "light-gray"
+            ? css`
+                background-color: ${color("gray", 50)};
+              `
+            : css`
+                background-color: white;
+              `};
         `;
       case SectionType.social:
         return css`
           display: flex;
           flex-direction: column;
-          justify-content: center;
+          justify-content: space-evenly;
           align-items: center;
-          border: 1px solid red;
           width: 100%;
           height: ${space(64)};
-          padding: ${space(24)}, 0px;
+          padding: 0px ${space(8)};
+          ${background === "light-gray"
+            ? css`
+                background-color: ${color("gray", 50)};
+              `
+            : css`
+                background-color: white;
+              `};
         `;
       case SectionType.testimonials:
         return css`
           display: flex;
-          justify-content: center;
+          flex-direction: column;
+          justify-content: space-around;
           align-items: center;
-          border: 1px solid green;
           width: 100%;
           height: 50rem;
-          padding: ${space(24)}, 0px;
+          padding: ${space(24)} 0px;
+          ${background === "light-gray"
+            ? css`
+                background-color: ${color("gray", 50)};
+              `
+            : css`
+                background-color: white;
+              `};
         `;
     }
   }}
@@ -84,13 +105,24 @@ const Content = styled.div`
 
 const Companies = styled.div`
   display: flex;
-  min-width: ${container("lg")};
+  justify-content: space-between;
+  min-width: ${container("xl")};
+`;
+
+const Logo = styled.img`
+  width: 10rem;
+`;
+
+const Testimonials = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
 `;
 
 const ContactButton = styled.button`
   position: relative;
-  top: 21rem;
-  left: 19rem;
+  bottom: ${space(6)};
+  left: 49rem;
   padding: 1rem;
   background: #7f56d9;
   border-radius: 50%;
@@ -116,13 +148,13 @@ export const Section = ({ content, openModal }: SectionProps) => {
 
   if (sectionType === "social-proof") {
     return (
-      <Container sectionType={sectionType}>
+      <Container sectionType={sectionType} background={theme}>
         <Heading>
           <Title sectionType={sectionType}>{title}</Title>
         </Heading>
         <Companies>
-          {companies?.slice(0, 5).map((company) => (
-            <img key={company.name} src={company.logo} alt={company.name} />
+          {companies?.map((company) => (
+            <Logo key={company.name} src={company.logo} alt={company.name} />
           ))}
         </Companies>
       </Container>
@@ -131,11 +163,16 @@ export const Section = ({ content, openModal }: SectionProps) => {
 
   if (sectionType === "testimonials") {
     return (
-      <Container sectionType={sectionType}>
+      <Container sectionType={sectionType} background={theme}>
         <Heading>
           <Title sectionType={sectionType}>{title}</Title>
           <Subtitle>{subtitle}</Subtitle>
         </Heading>
+        <Testimonials>
+          {testimonials?.map((testimonial, index) => (
+            <Testimonial key={index} testimonial={testimonial} />
+          ))}
+        </Testimonials>
         <ContactButton onClick={openModal}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/icons/message.svg" alt="Contact" />
@@ -145,7 +182,7 @@ export const Section = ({ content, openModal }: SectionProps) => {
   }
 
   return (
-    <Container sectionType={sectionType}>
+    <Container sectionType={sectionType} background={theme}>
       <Heading>
         <Title sectionType={sectionType}>{title}</Title>
         <Subtitle>{subtitle}</Subtitle>
