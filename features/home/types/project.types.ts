@@ -18,6 +18,10 @@ type Testimonial = {
   userRole: string;
 };
 
+export type TestimonialProps = {
+  testimonial: Testimonial;
+};
+
 export type SectionProps = {
   content: Content;
   openModal: () => void;
@@ -29,6 +33,7 @@ export type TitleProps = {
 
 export type ContainerProps = {
   sectionType?: string;
+  background?: string;
 };
 
 export enum SectionType {
