@@ -71,6 +71,7 @@ export type Theme = {
       xl: Font;
     };
     display: {
+      xs: Font;
       sm: Font;
       md: Font;
       lg: Font;
@@ -297,6 +298,28 @@ export const theme = {
       },
     },
     display: {
+      xs: {
+        regular: `
+          font-size: 1.5rem;
+          line-height: 2rem;
+          font-weight: 400;
+        `,
+        medium: `
+          font-size: 1.5rem;
+          line-height: 2rem;
+          font-weight: 500;
+        `,
+        semibold: `
+          font-size: 1.5rem;
+          line-height: 2rem;
+          font-weight: 600;
+        `,
+        bold: `
+        font-size: 1.5rem;
+        line-height: 2rem;
+        font-weight: 700; 
+        `,
+      },
       sm: {
         regular: `
           font-size: 1.875rem;
