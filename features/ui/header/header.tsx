@@ -1,11 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { Routes } from "@config/routes";
-import Link from "next/link";
-import { breakpoint, color, space, textFont, zIndex } from "@styles/theme";
-import { useRouter } from "next/router";
-import { NavigationContext } from "../sidebar-navigation";
+
+import { space } from "@styles/theme";
+
 import { HeaderItemLink } from "./header-item-link";
 import useViewChecker from "./use-view-checker";
 

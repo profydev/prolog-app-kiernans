@@ -4,7 +4,6 @@ import styled, { css } from "styled-components";
 import {
   ContainerProps,
   Content,
-  Image,
   SectionProps,
   SectionType,
   TitleProps,
