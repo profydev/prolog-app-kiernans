@@ -1,10 +1,6 @@
 import capitalize from "lodash/capitalize";
 import mockProjects from "../fixtures/projects.json";
-import {
-  Status,
-  ProjectStatus,
-  StatusColors,
-} from "../../features/projects/types/project.types";
+import { ProjectStatus } from "../../features/projects/types/project.types";
 
 describe("Project List", () => {
   beforeEach(() => {
@@ -27,10 +23,11 @@ describe("Project List", () => {
 
     it("renders the projects", () => {
       const languageNames = ["React", "Node.js", "Python"];
-      const statusNames: Status = {
-        error: "critical",
-        warning: "warning",
-        info: "stable",
+
+      const statusNames = {
+        [ProjectStatus.warning]: "warning",
+        [ProjectStatus.critical]: "critical",
+        [ProjectStatus.stable]: "stable",
       };
 
       const statusColors = {
@@ -44,8 +41,11 @@ describe("Project List", () => {
         .find("li")
         .each(($el, index) => {
           const statusName =
-            statusNames[mockProjects[index].status as keyof Status];
-          const statusColor = statusColors[statusName as keyof StatusColors];
+            statusNames[mockProjects[index].status as keyof typeof statusNames];
+          const statusColor =
+            statusColors[
+              mockProjects[index].status as keyof typeof statusColors
+            ];
           // check that project data is rendered
           cy.wrap($el).contains(mockProjects[index].name);
           cy.wrap($el).contains(languageNames[index]);

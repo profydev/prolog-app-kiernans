@@ -5,9 +5,6 @@ import {
   Project,
   ProjectLanguage,
   ProjectStatus,
-  ProjectStatusNames,
-  Status,
-  StatusColors,
 } from "../../types/project.types";
 import { color, displayFont, space, textFont } from "@styles/theme";
 import { Routes } from "@config/routes";
@@ -23,13 +20,13 @@ const languageNames = {
   [ProjectLanguage.python]: "Python",
 };
 
-const statusNames: Status = {
-  [ProjectStatusNames.warning]: "warning",
-  [ProjectStatusNames.error]: "critical",
-  [ProjectStatusNames.info]: "stable",
+const statusNames = {
+  [ProjectStatus.warning]: "warning",
+  [ProjectStatus.critical]: "critical",
+  [ProjectStatus.stable]: "stable",
 };
 
-const statusColors: StatusColors = {
+const statusColors = {
   [ProjectStatus.stable]: BadgeColor.success,
   [ProjectStatus.warning]: BadgeColor.warning,
   [ProjectStatus.critical]: BadgeColor.error,
@@ -115,8 +112,7 @@ const ViewIssuesAnchor = styled.a`
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const { name, language, numIssues, numEvents24h, status } = project;
-  const statusName = statusNames[status as keyof Status];
-  const statusColor = statusColors[statusName as keyof StatusColors];
+
   return (
     <Container>
       <TopContainer>
@@ -137,7 +133,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <IssuesNumber>{numEvents24h}</IssuesNumber>
           </Issues>
           <StatusContainer>
-            <Badge color={statusColor}>{capitalize(statusName)}</Badge>
+            <Badge color={statusColors[status]}>
+              {capitalize(statusNames[status])}
+            </Badge>
           </StatusContainer>
         </InfoContainer>
       </TopContainer>
