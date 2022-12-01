@@ -7,7 +7,7 @@ import { Section, useHome } from "../features/home";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: ${space(24)} 0px;
+  padding: ${space(16)} 0px;
 `;
 
 const IssuesPage = () => {
