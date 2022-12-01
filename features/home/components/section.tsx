@@ -188,7 +188,7 @@ export const Section = ({ content, openModal }: SectionProps) => {
         <Subtitle>{subtitle}</Subtitle>
       </Heading>
       <Content>
-        <img src={image?.src} alt="Mackbook Pro 16 Mockup" />
+        <img src={image?.src} alt="Macbook Pro 16 Mockup" />
       </Content>
     </Container>
   );
