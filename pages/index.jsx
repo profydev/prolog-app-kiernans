@@ -4,6 +4,12 @@ import styled from "styled-components";
 import { space } from "@styles/theme";
 import { Section, useHome } from "../features/home";
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: ${space(24)} 0px;
+`;
+
 const IssuesPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const { data, isError, isLoading, error } = useHome();
@@ -53,13 +59,15 @@ const IssuesPage = () => {
   return (
     <div>
       <Header />
-      {/*eslint-disable-next-line no-undef */}
-      <Section content={heroSection} />
-      {/*eslint-disable-next-line no-undef */}
-      <Section content={socialSection} />
-      {/*eslint-disable-next-line no-undef */}
-      <Section content={testimonialSection} openModal={handleOpenModal} />
-      {openModal && <Modal closeModal={handleCloseModal} />}
+      <Container>
+        {/*eslint-disable-next-line no-undef */}
+        <Section content={heroSection} />
+        {/*eslint-disable-next-line no-undef */}
+        <Section content={socialSection} />
+        {/*eslint-disable-next-line no-undef */}
+        <Section content={testimonialSection} openModal={handleOpenModal} />
+        {openModal && <Modal closeModal={handleCloseModal} />}
+      </Container>
     </div>
   );
 };

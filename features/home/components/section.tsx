@@ -4,24 +4,35 @@ import styled, { css } from "styled-components";
 import {
   ContainerProps,
   Content,
+  Image,
   SectionProps,
   SectionType,
   TitleProps,
 } from "../types/project.types";
-import { space, textFont, color, container, displayFont } from "@styles/theme";
+import {
+  space,
+  textFont,
+  color,
+  container,
+  displayFont,
+  breakpoint,
+} from "@styles/theme";
 import { Testimonial } from "./testimonial";
 
+const containerStyles = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  text-align: center;
+`;
+
 const Container = styled.div<ContainerProps>`
+  ${containerStyles}
   ${({ sectionType, background }) => {
     switch (sectionType) {
       case SectionType.hero:
         return css`
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-          height: 53.75rem;
           gap: ${space(16)};
           padding: ${space(24)} 0px;
           ${background === "light-gray"
@@ -34,13 +45,9 @@ const Container = styled.div<ContainerProps>`
         `;
       case SectionType.social:
         return css`
-          display: flex;
-          flex-direction: column;
           justify-content: space-evenly;
-          align-items: center;
-          width: 100%;
-          height: ${space(64)};
-          padding: 0px ${space(8)};
+          gap: ${space(12)};
+          padding: ${space(12)} ${space(8)};
           ${background === "light-gray"
             ? css`
                 background-color: ${color("gray", 50)};
@@ -51,13 +58,9 @@ const Container = styled.div<ContainerProps>`
         `;
       case SectionType.testimonials:
         return css`
-          display: flex;
-          flex-direction: column;
           justify-content: space-around;
-          align-items: center;
-          width: 100%;
-          height: 50rem;
           padding: ${space(24)} 0px;
+          gap: ${space(16)};
           ${background === "light-gray"
             ? css`
                 background-color: ${color("gray", 50)};
@@ -74,22 +77,39 @@ const Heading = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: ${container("lg")};
+  max-width: ${container("lg")};
   padding: 0px;
   gap: ${space(4)};
 `;
 
 const Title = styled.div<TitleProps>`
-  ${({ sectionType }) =>
-    sectionType === "social-proof"
-      ? css`
-          color: ${color("gray", 500)};
-          ${textFont("lg", "medium")};
-        `
-      : css`
+  ${({ sectionType }) => {
+    switch (sectionType) {
+      case SectionType.hero:
+        return css`
           color: ${color("gray", 900)};
           ${displayFont("xxl", "semibold")};
-        `}
+
+          @media (max-width: ${breakpoint("desktop")}) {
+            ${displayFont("md", "semibold")};
+          }
+        `;
+      case SectionType.social:
+        return css`
+          color: ${color("gray", 500)};
+          ${textFont("lg", "medium")};
+        `;
+      case SectionType.testimonials:
+        return css`
+          color: ${color("gray", 900)};
+          ${displayFont("xxl", "semibold")};
+
+          @media (max-width: ${breakpoint("desktop")}) {
+            ${displayFont("md", "semibold")};
+          }
+        `;
+    }
+  }}
 `;
 
 const Subtitle = styled.div`
@@ -100,23 +120,34 @@ const Subtitle = styled.div`
 const Content = styled.div`
   display: flex;
   justify-content: center;
-  width: ${container("xl")};
+  max-width: ${container("xl")};
 `;
 
 const Companies = styled.div`
   display: flex;
   justify-content: space-between;
-  min-width: ${container("xl")};
+  gap: ${space(24)};
+  max-width: ${container("xl")};
+
+  @media (max-width: ${breakpoint("desktop")}) {
+    flex-wrap: wrap;
+    gap: ${space(8)};
+  }
 `;
 
 const Logo = styled.img`
-  width: 10rem;
+  width: 9rem;
 `;
 
 const Testimonials = styled.div`
   display: flex;
   justify-content: space-evenly;
-  width: 100%;
+  width: 100vw;
+
+  @media (max-width: ${breakpoint("desktop")}) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const ContactButton = styled.button`
@@ -132,6 +163,12 @@ const ContactButton = styled.button`
 
   &:hover {
     background: #6941c6;
+  }
+
+  @media (max-width: ${breakpoint("desktop")}) {
+    position: relative;
+    bottom: 9rem;
+    left: 9rem;
   }
 `;
 

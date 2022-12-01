@@ -1,5 +1,5 @@
 export type Image = {
-  src: string;
+  src?: string;
   width: number;
   height: number;
 };
