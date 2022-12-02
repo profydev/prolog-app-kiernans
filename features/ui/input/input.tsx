@@ -10,6 +10,8 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const Container = styled.div`
+  //For icon absolute positioning
+  position: relative;
   width: 22rem;
   padding: 0.625rem 0.875rem;
   gap: ${space(2)};
@@ -66,8 +68,8 @@ const InputField = styled.input<InputProps>`
       border: 1px solid ${color("error", 300)};
     `};
 
-  ${({ icon }) =>
-    icon
+  ${({ icon, error }) =>
+    icon || error
       ? css`
           padding: 0rem ${space(12)};
         `
@@ -89,11 +91,11 @@ const Label = styled.div`
 `;
 
 const InputIcon = styled.img`
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   position: absolute;
-  top: 6.4rem;
-  left: 5rem;
+  top: 3.4rem;
+  left: 2rem;
 `;
 
 const Hint = styled.span`
@@ -107,11 +109,11 @@ const Error = styled.span`
 `;
 
 const ErrorIcon = styled.img`
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   position: absolute;
-  top: 6.4rem;
-  left: 24rem;
+  top: 3.4rem;
+  left: 2rem;
 `;
 
 export const Input = ({
@@ -131,7 +133,7 @@ export const Input = ({
   return (
     <Container>
       {label && <Label>{label}</Label>}
-      {icon && <InputIcon src={icon} alt="Input Icon" />}
+      {icon && !error && <InputIcon src={icon} alt="Input Icon" />}
       <InputField
         type="text"
         placeholder={placeholder}
