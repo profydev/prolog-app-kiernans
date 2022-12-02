@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes } from "react";
 import styled, { css } from "styled-components";
-import { color, textFont } from "@styles/theme";
+import { color, space, textFont } from "@styles/theme";
 
 export enum ButtonSize {
   sm = "sm",
@@ -65,8 +65,8 @@ const Container = styled.button<{
   justify-content: center;
   align-items: center;
   padding: 10px 1rem;
-  border-radius: 0.5rem;
-  gap: 0.25rem;
+  border-radius: ${space(2)};
+  gap: ${space(3)};
   ${textFont("sm", "regular")}
 
   ${({ size, icon }) => {
@@ -74,23 +74,23 @@ const Container = styled.button<{
       case ButtonSize.sm:
         return css`
           height: 2.25rem;
-          width: ${icon === ButtonIcon.only ? "fit-content" : "8.56rem"};
+          min-width: ${icon === ButtonIcon.only ? "fit-content" : "8.56rem"};
         `;
       case ButtonSize.md:
         return css`
           height: 2.5rem;
-          width: ${icon === ButtonIcon.only ? "fit-content" : "8.81rem"};
+          min-width: ${icon === ButtonIcon.only ? "fit-content" : "8.81rem"};
         `;
       case ButtonSize.lg:
         return css`
           height: 2.75rem;
-          width: ${icon === ButtonIcon.only ? "fit-content" : "9.75rem"};
+          min-width: ${icon === ButtonIcon.only ? "fit-content" : "9.75rem"};
           ${textFont("md", "regular")}
         `;
       case ButtonSize.xl:
         return css`
           height: 3rem;
-          width: ${icon === ButtonIcon.only ? "fit-content" : "10rem"};
+          min-width: ${icon === ButtonIcon.only ? "fit-content" : "10rem"};
           ${textFont("md", "regular")}
         `;
     }
@@ -215,8 +215,8 @@ const Container = styled.button<{
 `;
 
 const Image = styled.img<ImageProps>`
-  width: 1.25rem;
-  height: 1.25rem;
+  width: ${space(4)};
+  height: ${space(4)};
 
   ${(props) => {
     switch (props.color) {
@@ -277,7 +277,7 @@ export function Button({
   children,
   size = ButtonSize.md,
   color = ButtonColor.primary,
-  icon = ButtonIcon.only,
+  icon = ButtonIcon.leading,
   image = "/icons/alert.svg",
   ...buttonProps
 }: ButtonProps) {
