@@ -13,7 +13,7 @@ export enum SelectState {
 export type SelectProps = SelectInputProps & {
   placeholder?: string;
   icon?: string;
-  label: string;
+  label?: string;
   hint?: string;
   options?: string[];
 };
