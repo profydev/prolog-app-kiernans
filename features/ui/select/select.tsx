@@ -16,6 +16,7 @@ export type SelectProps = SelectInputProps & {
   label?: string;
   hint?: string;
   options?: string[];
+  className?: string;
 };
 
 export type SelectInputProps = {
@@ -52,14 +53,13 @@ const SelectInput = styled.div<SelectInputProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: ${space(12)};
   background-color: white;
   border: 1px solid ${color("gray", 300)};
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: ${space(2)};
   ${textFont("md", "regular")};
   color: ${color("gray", 900)};
-  padding: 0rem 1rem;
+  padding: 0.75rem 1rem;
 
   ${({ error, showMenu }) =>
     showMenu &&
@@ -191,6 +191,7 @@ export const Select = ({
   hint,
   options,
   disabled,
+  className,
 }: SelectProps) => {
   const [showMenu, setShowMenu] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
@@ -225,8 +226,8 @@ export const Select = ({
   };
 
   return (
-    <Container>
-      <Label>{label}</Label>
+    <Container className={className}>
+      {label && <Label>{label}</Label>}
       <SelectInput
         onClick={handleInputClick}
         error={error}

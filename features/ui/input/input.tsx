@@ -7,6 +7,7 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   hint?: string;
   error?: string;
+  className?: string;
 };
 
 const Container = styled.div`
@@ -23,7 +24,6 @@ const InputField = styled.input<InputProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: ${space(12)};
   width: ${space(64)};
   background-color: white;
   border: 1px solid ${color("gray", 300)};
@@ -71,18 +71,12 @@ const InputField = styled.input<InputProps>`
   ${({ icon, error }) =>
     icon || error
       ? css`
-          padding: 0rem ${space(12)};
+          padding: 0.75rem ${space(12)};
         `
       : css`
-          padding: 0rem 1rem;
+          padding: 0.75rem 1rem;
           width: 20rem;
         `};
-
-  ${({ label }) =>
-    !label &&
-    css`
-      margin-top: 1.8rem;
-    `}
 `;
 
 const Label = styled.div`
@@ -90,11 +84,11 @@ const Label = styled.div`
   color: ${color("gray", 700)};
 `;
 
-const InputIcon = styled.img`
+const InputIcon = styled.img<{ label?: string }>`
   width: 1.25rem;
   height: 1.25rem;
   position: absolute;
-  top: 3.4rem;
+  top: ${(props) => (props.label ? "3.4rem" : "1.6rem")};
   left: 2rem;
 `;
 
@@ -108,11 +102,11 @@ const Error = styled.span`
   color: ${color("error", 500)};
 `;
 
-const ErrorIcon = styled.img`
+const ErrorIcon = styled.img<{ label?: string }>`
   width: 1.25rem;
   height: 1.25rem;
   position: absolute;
-  top: 3.4rem;
+  top: ${(props) => (props.label ? "3.4rem" : "1.6rem")};
   left: 2rem;
 `;
 
@@ -122,6 +116,7 @@ export const Input = ({
   label,
   error,
   hint,
+  className,
   ...inputProps
 }: InputProps) => {
   const [inputValue, setInputValue] = useState("");
@@ -131,9 +126,11 @@ export const Input = ({
   };
 
   return (
-    <Container>
+    <Container className={className}>
       {label && <Label>{label}</Label>}
-      {icon && !error && <InputIcon src={icon} alt="Input Icon" />}
+      {icon && !error && (
+        <InputIcon src={icon} alt="Input Icon" label={label} />
+      )}
       <InputField
         type="text"
         placeholder={placeholder}
@@ -144,7 +141,13 @@ export const Input = ({
         onChange={handleInputChange}
         {...inputProps}
       />
-      {error && <ErrorIcon src="/icons/input-error.svg" alt="Input Error" />}
+      {error && (
+        <ErrorIcon
+          src="/icons/input-error.svg"
+          alt="Input Error"
+          label={label}
+        />
+      )}
       {hint && !error && <Hint>{hint}</Hint>}
       {error && <Error>{error}</Error>}
     </Container>
