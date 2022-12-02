@@ -4,8 +4,16 @@ import { useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./issue-row";
+import { Select, Button, Checkbox, Input } from "@features/ui";
+import { ButtonSize } from "@features/ui/button/button";
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${space(6)};
+`;
+
+const IssuesContainer = styled.div`
   background: white;
   border: 1px solid ${color("gray", 200)};
   box-sizing: border-box;
@@ -61,6 +69,23 @@ const PageNumber = styled.span`
   ${textFont("sm", "medium")}
 `;
 
+const FilterContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledSelect = styled(Select)`
+  && {
+    width: ${space(32)};
+  }
+`;
+
 export function IssueList() {
   const router = useRouter();
   const page = Number(router.query.page || 1);
@@ -98,45 +123,57 @@ export function IssueList() {
 
   return (
     <Container>
-      <Table>
-        <thead>
-          <HeaderRow>
-            <HeaderCell>Issue</HeaderCell>
-            <HeaderCell>Level</HeaderCell>
-            <HeaderCell>Events</HeaderCell>
-            <HeaderCell>Users</HeaderCell>
-          </HeaderRow>
-        </thead>
-        <tbody>
-          {(items || []).map((issue) => (
-            <IssueRow
-              key={issue.id}
-              issue={issue}
-              projectLanguage={projectIdToLanguage[issue.projectId]}
-            />
-          ))}
-        </tbody>
-      </Table>
-      <PaginationContainer>
-        <div>
-          <PaginationButton
-            onClick={() => navigateToPage(page - 1)}
-            disabled={page === 1}
-          >
-            Previous
-          </PaginationButton>
-          <PaginationButton
-            onClick={() => navigateToPage(page + 1)}
-            disabled={page === meta?.totalPages}
-          >
-            Next
-          </PaginationButton>
-        </div>
-        <PageInfo>
-          Page <PageNumber>{meta?.currentPage}</PageNumber> of{" "}
-          <PageNumber>{meta?.totalPages}</PageNumber>
-        </PageInfo>
-      </PaginationContainer>
+      <FilterContainer>
+        <Button image="\icons\select-checkmark.svg" size={ButtonSize.xl}>
+          Resolve selected issues
+        </Button>
+        <InputContainer>
+          <StyledSelect placeholder="Status" />
+          <StyledSelect placeholder="Level" />
+          <Input placeholder="Project Name" icon="/icons/input-search.svg" />
+        </InputContainer>
+      </FilterContainer>
+      <IssuesContainer>
+        <Table>
+          <thead>
+            <HeaderRow>
+              <HeaderCell>Issue</HeaderCell>
+              <HeaderCell>Level</HeaderCell>
+              <HeaderCell>Events</HeaderCell>
+              <HeaderCell>Users</HeaderCell>
+            </HeaderRow>
+          </thead>
+          <tbody>
+            {(items || []).map((issue) => (
+              <IssueRow
+                key={issue.id}
+                issue={issue}
+                projectLanguage={projectIdToLanguage[issue.projectId]}
+              />
+            ))}
+          </tbody>
+        </Table>
+        <PaginationContainer>
+          <div>
+            <PaginationButton
+              onClick={() => navigateToPage(page - 1)}
+              disabled={page === 1}
+            >
+              Previous
+            </PaginationButton>
+            <PaginationButton
+              onClick={() => navigateToPage(page + 1)}
+              disabled={page === meta?.totalPages}
+            >
+              Next
+            </PaginationButton>
+          </div>
+          <PageInfo>
+            Page <PageNumber>{meta?.currentPage}</PageNumber> of{" "}
+            <PageNumber>{meta?.totalPages}</PageNumber>
+          </PageInfo>
+        </PaginationContainer>
+      </IssuesContainer>
     </Container>
   );
 }
