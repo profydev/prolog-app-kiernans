@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import styled, { css } from "styled-components";
-import { TestimonialProps, Image } from "../types/project.types";
+import { TestimonialProps, Image } from "../types/home.types";
 import { textFont, color, space, displayFont } from "@styles/theme";
 
 const Container = styled.div`

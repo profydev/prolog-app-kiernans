@@ -7,7 +7,7 @@ import {
   SectionProps,
   SectionType,
   TitleProps,
-} from "../types/project.types";
+} from "../types/home.types";
 import {
   space,
   textFont,
