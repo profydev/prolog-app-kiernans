@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes } from "react";
 import styled, { css } from "styled-components";
-import { color, space, textFont } from "@styles/theme";
+import { breakpoint, color, space, textFont } from "@styles/theme";
 
 export enum ButtonSize {
   sm = "sm",
@@ -64,10 +64,14 @@ const Container = styled.button<{
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 1rem;
+  padding: 0.5rem 1rem;
   border-radius: ${space(2)};
   gap: ${space(3)};
   ${textFont("sm", "regular")}
+
+  @media (max-width: ${breakpoint("desktop")}) {
+    padding: 0;
+  }
 
   ${({ size, icon }) => {
     switch (size) {
