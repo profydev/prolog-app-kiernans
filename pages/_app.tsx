@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { NavigationProvider } from "@features/ui";
 import { GlobalStyle } from "@styles/global-style";
 import { theme } from "@styles/theme";
+import { IssuesProvider } from "@features/issues/components/issues-context";
 
 const queryClient = new QueryClient();
 
@@ -16,8 +17,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <NavigationProvider>
-          <GlobalStyle />
-          <Component {...pageProps} />
+          <IssuesProvider>
+            <GlobalStyle />
+            <Component {...pageProps} />
+          </IssuesProvider>
         </NavigationProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
