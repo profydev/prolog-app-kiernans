@@ -16,18 +16,17 @@ export enum CheckboxState {
 type InputProps = {
   checkboxSize?: CheckboxSize;
   partiallyChecked?: boolean;
+  triState?: boolean;
 };
 
 type CheckboxProps = InputHTMLAttributes<HTMLInputElement> &
   InputProps & {
-    label: string;
+    label?: string;
   };
 
-const Label = styled.label<{ size: CheckboxSize; disabled: boolean }>`
+const Container = styled.div<{ size: CheckboxSize; disabled: boolean }>`
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 6rem;
   color: ${color("gray", 700)};
 
   ${(props) => {
@@ -105,33 +104,54 @@ const Input = styled.input<InputProps>`
   }}
 `;
 
+const Label = styled.span<{ disabled?: boolean }>`
+  ${({ disabled }) =>
+    disabled
+      ? css`
+          -webkit-user-select: none; /* Safari */
+          -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* IE10+/Edge */
+          user-select: none; /* Standard */
+        `
+      : ``}
+`;
+
 export const Checkbox = ({
   checkboxSize = CheckboxSize.md,
-  label = "Label",
+  label,
   disabled = false,
+  partiallyChecked = false,
+  triState = false,
+  className,
   ...checkboxProps
 }: CheckboxProps) => {
   const [isChecked, setIsChecked] = useState(false);
-  const [isPartiallyChecked, setIsPartiallyChecked] = useState(false);
+  const [isPartiallyChecked, setIsPartiallyChecked] =
+    useState(partiallyChecked);
   const [checkCount, setCheckCount] = useState(0);
 
+  //TODO allow for setting partially checked from parent function
   const handleInputChange = () => {
-    setCheckCount((prevCount) => prevCount + 1);
-    if (checkCount % 3 === CheckboxState.unchecked) {
-      setIsChecked(false);
-      setIsPartiallyChecked(false);
-    } else if (checkCount % 3 === CheckboxState.partialChecked) {
-      setIsPartiallyChecked(true);
-      setIsChecked(false);
+    if (!triState) {
+      setIsChecked(!isChecked);
     } else {
-      setIsChecked(true);
-      setIsPartiallyChecked(false);
+      setCheckCount((prevCount) => prevCount + 1);
+      if (checkCount % 3 === CheckboxState.unchecked) {
+        setIsChecked(false);
+        setIsPartiallyChecked(false);
+      } else if (checkCount % 3 === CheckboxState.partialChecked) {
+        setIsPartiallyChecked(true);
+        setIsChecked(false);
+      } else {
+        setIsChecked(true);
+        setIsPartiallyChecked(false);
+      }
     }
   };
 
   return (
     <>
-      <Label size={checkboxSize} disabled={disabled}>
+      <Container size={checkboxSize} disabled={disabled} className={className}>
         <Input
           type="checkbox"
           checkboxSize={checkboxSize}
@@ -141,8 +161,8 @@ export const Checkbox = ({
           disabled={disabled}
           {...checkboxProps}
         />
-        <span>{label}</span>
-      </Label>
+        {label && <Label disabled={disabled}>{label}</Label>}
+      </Container>
     </>
   );
 };
