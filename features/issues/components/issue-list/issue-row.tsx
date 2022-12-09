@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import capitalize from "lodash/capitalize";
 import { color, space, textFont } from "@styles/theme";
-import { Badge, BadgeColor, BadgeSize } from "@features/ui";
+import { Badge, BadgeColor, BadgeSize, Checkbox } from "@features/ui";
 import { IssueLevel } from "../../types/issue.types";
 import { ProjectLanguage } from "@features/projects";
 import type { Issue } from "../../types/issue.types";
+import { CheckboxSize } from "@features/ui/checkbox/checkbox";
 
 type IssueRowProps = {
   projectLanguage: ProjectLanguage;
@@ -53,6 +54,7 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
   return (
     <Row>
       <IssueCell>
+        <Checkbox checkboxSize={CheckboxSize.sm} />
         <LanguageIcon
           src={`/icons/${projectLanguage}.svg`}
           alt={projectLanguage}

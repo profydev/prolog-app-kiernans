@@ -6,6 +6,7 @@ import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./issue-row";
 import { Select, Button, Checkbox, Input } from "@features/ui";
 import { ButtonSize } from "@features/ui/button/button";
+import { CheckboxSize } from "@features/ui/checkbox/checkbox";
 
 const Container = styled.div`
   display: flex;
@@ -28,8 +29,21 @@ const Table = styled.table`
   border-collapse: collapse;
 `;
 
+const IssueHeader = styled.div`
+  display: flex;
+`;
+
 const HeaderRow = styled.tr`
   border-bottom: 1px solid ${color("gray", 200)};
+`;
+
+const StyledCheckbox = styled(Checkbox)`
+  && {
+    padding: 0.75rem 1.5rem;
+    text-align: left;
+    color: ${color("gray", 500)};
+    ${textFont("xs", "medium")};
+  }
 `;
 
 const HeaderCell = styled.th`
@@ -137,7 +151,13 @@ export function IssueList() {
         <Table>
           <thead>
             <HeaderRow>
-              <HeaderCell>Issue</HeaderCell>
+              <IssueHeader>
+                <StyledCheckbox
+                  checkboxSize={CheckboxSize.sm}
+                  label="Issue"
+                  checked={true}
+                />
+              </IssueHeader>
               <HeaderCell>Level</HeaderCell>
               <HeaderCell>Events</HeaderCell>
               <HeaderCell>Users</HeaderCell>
