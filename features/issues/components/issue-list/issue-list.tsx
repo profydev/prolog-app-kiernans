@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { useIssues } from "@features/issues";
+import { CheckedState, useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./issue-row";
 import { Select, Button, Checkbox, Input } from "@features/ui";
 import { ButtonSize } from "@features/ui/button/button";
 import { CheckboxSize } from "@features/ui/checkbox/checkbox";
+import { useEffect, useState } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -112,6 +113,21 @@ export function IssueList() {
   const issuesPage = useIssues(page);
   const projects = useProjects();
 
+  const { items, meta } = issuesPage.data || {};
+
+  const [checkedState, setCheckedState] = useState<
+    Record<string, CheckedState>
+  >({});
+
+  useEffect(() => {
+    const initialState = Object.fromEntries(
+      (items || []).map((issue) => {
+        return [issue.id, { isChecked: false }];
+      })
+    );
+    setCheckedState(initialState);
+  }, [items]);
+
   if (projects.isLoading || issuesPage.isLoading) {
     return <div>Loading</div>;
   }
@@ -133,7 +149,6 @@ export function IssueList() {
     }),
     {} as Record<string, ProjectLanguage>
   );
-  const { items, meta } = issuesPage.data || {};
 
   return (
     <Container>
@@ -155,7 +170,7 @@ export function IssueList() {
                 <StyledCheckbox
                   checkboxSize={CheckboxSize.sm}
                   label="Issue"
-                  checked={true}
+                  checked={false}
                 />
               </IssueHeader>
               <HeaderCell>Level</HeaderCell>
@@ -164,13 +179,22 @@ export function IssueList() {
             </HeaderRow>
           </thead>
           <tbody>
-            {(items || []).map((issue) => (
-              <IssueRow
-                key={issue.id}
-                issue={issue}
-                projectLanguage={projectIdToLanguage[issue.projectId]}
-              />
-            ))}
+            {(items || []).map((issue) => {
+              return (
+                <IssueRow
+                  key={issue.id}
+                  issue={issue}
+                  isChecked={checkedState[issue.id]?.isChecked}
+                  setIsChecked={(newIsChecked: CheckedState) =>
+                    setCheckedState({
+                      ...checkedState,
+                      [issue.id]: { ...newIsChecked },
+                    })
+                  }
+                  projectLanguage={projectIdToLanguage[issue.projectId]}
+                />
+              );
+            })}
           </tbody>
         </Table>
         <PaginationContainer>
