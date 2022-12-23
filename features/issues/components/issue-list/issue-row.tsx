@@ -2,7 +2,11 @@ import styled from "styled-components";
 import capitalize from "lodash/capitalize";
 import { color, space, textFont } from "@styles/theme";
 import { Badge, BadgeColor, BadgeSize, Checkbox } from "@features/ui";
-import { IssueLevel, CheckedState, Issue } from "@features/issues";
+import {
+  CheckedState,
+  Issue,
+  IssueLevel,
+} from "@features/issues/types/issue.types";
 import { ProjectLanguage } from "@features/projects";
 import { CheckboxSize } from "@features/ui/checkbox/checkbox";
 
@@ -63,7 +67,9 @@ export function IssueRow({
         <Checkbox
           checkboxSize={CheckboxSize.sm}
           checked={isChecked}
-          onChange={() => setIsChecked({ isChecked: !isChecked })}
+          onChange={(prevState) =>
+            setIsChecked({ ...prevState, isChecked: !isChecked })
+          }
         />
         <LanguageIcon
           src={`/icons/${projectLanguage}.svg`}
