@@ -2,14 +2,15 @@ import styled from "styled-components";
 import capitalize from "lodash/capitalize";
 import { color, space, textFont } from "@styles/theme";
 import { Badge, BadgeColor, BadgeSize, Checkbox } from "@features/ui";
-import { IssueLevel } from "../../types/issue.types";
+import { IssueLevel, CheckedState, Issue } from "@features/issues";
 import { ProjectLanguage } from "@features/projects";
-import type { Issue } from "../../types/issue.types";
 import { CheckboxSize } from "@features/ui/checkbox/checkbox";
 
 type IssueRowProps = {
   projectLanguage: ProjectLanguage;
   issue: Issue;
+  isChecked: boolean;
+  setIsChecked: (newIsChecked: CheckedState) => void;
 };
 
 const levelColors = {
@@ -48,13 +49,22 @@ const ErrorType = styled.span`
   ${textFont("sm", "medium")}
 `;
 
-export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
+export function IssueRow({
+  projectLanguage,
+  issue,
+  isChecked = false,
+  setIsChecked,
+}: IssueRowProps) {
   const { name, message, stack, level, numEvents, numUsers } = issue;
   const firstLineOfStackTrace = stack.split("\n")[1];
   return (
     <Row>
       <IssueCell>
-        <Checkbox checkboxSize={CheckboxSize.sm} />
+        <Checkbox
+          checkboxSize={CheckboxSize.sm}
+          checked={isChecked}
+          onChange={() => setIsChecked({ isChecked: !isChecked })}
+        />
         <LanguageIcon
           src={`/icons/${projectLanguage}.svg`}
           alt={projectLanguage}
