@@ -8,7 +8,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { NavigationProvider } from "@features/ui";
 import { GlobalStyle } from "@styles/global-style";
 import { theme } from "@styles/theme";
-import { IssuesProvider } from "@features/issues/components/issues-context";
+import { IssuesProvider } from "@features/issues/components/issue-list/issues-context";
 
 const queryClient = new QueryClient();
 
