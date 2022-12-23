@@ -4,6 +4,10 @@ export enum IssueLevel {
   error = "error",
 }
 
+export type CheckedState = {
+  isChecked: boolean;
+};
+
 export type Issue = {
   id: string;
   projectId: string;
