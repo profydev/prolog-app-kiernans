@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { CheckedState, useIssues } from "@features/issues";
@@ -7,7 +8,8 @@ import { IssueRow } from "./issue-row";
 import { Select, Button, Checkbox, Input } from "@features/ui";
 import { ButtonSize } from "@features/ui/button/button";
 import { CheckboxSize } from "@features/ui/checkbox/checkbox";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { IssuesContext } from "./issues-context";
 
 const Container = styled.div`
   display: flex;
@@ -112,6 +114,8 @@ export function IssueList() {
 
   const issuesPage = useIssues(page);
   const projects = useProjects();
+  const { isAllChecked, isSomeChecked, setAllChecked, setSomeChecked } =
+    useContext(IssuesContext);
 
   const { items, meta } = issuesPage.data || {};
 
@@ -119,6 +123,7 @@ export function IssueList() {
     Record<string, CheckedState>
   >({});
 
+  // Set checkboxes new state on page change
   useEffect(() => {
     const initialState = Object.fromEntries(
       (items || []).map((issue) => {
@@ -127,6 +132,27 @@ export function IssueList() {
     );
     setCheckedState(initialState);
   }, [items]);
+  // Handle state of top-level checkbox
+  useEffect(() => {
+    (function setCheckedContext() {
+      const someChecked = Object.entries(checkedState).some(
+        (checkbox) => checkbox[1].isChecked
+      );
+      const allChecked = Object.entries(checkedState).every(
+        (checkbox) => checkbox[1].isChecked
+      );
+      if (someChecked && !allChecked) {
+        setSomeChecked(true);
+        setAllChecked(false);
+      } else if (allChecked) {
+        setAllChecked(true);
+        setSomeChecked(false);
+      } else {
+        setSomeChecked(false);
+        setAllChecked(false);
+      }
+    })();
+  }, [checkedState, setAllChecked, setSomeChecked]);
 
   if (projects.isLoading || issuesPage.isLoading) {
     return <div>Loading</div>;
@@ -170,7 +196,8 @@ export function IssueList() {
                 <StyledCheckbox
                   checkboxSize={CheckboxSize.sm}
                   label="Issue"
-                  checked={false}
+                  checked={isAllChecked}
+                  partiallyChecked={isSomeChecked}
                 />
               </IssueHeader>
               <HeaderCell>Level</HeaderCell>

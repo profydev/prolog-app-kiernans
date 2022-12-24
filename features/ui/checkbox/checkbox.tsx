@@ -1,4 +1,5 @@
-import React, { InputHTMLAttributes, useState } from "react";
+/* eslint-disable no-debugger */
+import React, { InputHTMLAttributes, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { color, textFont } from "@styles/theme";
 
@@ -121,7 +122,7 @@ export const Checkbox = ({
   label,
   disabled = false,
   partiallyChecked = false,
-  triState = false,
+  triState = true,
   className,
   ...checkboxProps
 }: CheckboxProps) => {
@@ -130,7 +131,15 @@ export const Checkbox = ({
     useState(partiallyChecked);
   const [checkCount, setCheckCount] = useState(0);
 
-  //TODO allow for setting partially checked from parent function
+  // Allow for setting partially checked from parent function
+  useEffect(() => {
+    if (partiallyChecked) {
+      setIsPartiallyChecked(true);
+    } else {
+      setIsPartiallyChecked(false);
+    }
+  }, [partiallyChecked]);
+
   const handleInputChange = () => {
     if (!triState) {
       setIsChecked(!isChecked);
